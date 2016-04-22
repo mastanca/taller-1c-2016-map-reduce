@@ -5,8 +5,8 @@
  *      Author: mastanca
  */
 
-#ifndef SRC_SOCKETS_SOCKET_H_
-#define SRC_SOCKETS_SOCKET_H_
+#ifndef SRC_SOCKETS_COMMON_SOCKET_H_
+#define SRC_SOCKETS_COMMON_SOCKET_H_
 
 #include <string>
 
@@ -39,4 +39,4 @@ public:
 	int send(std::string* buffer, int size);
 };
 
-#endif /* SRC_SOCKETS_SOCKET_H_ */
+#endif /* SRC_SOCKETS_COMMON_SOCKET_H_ */

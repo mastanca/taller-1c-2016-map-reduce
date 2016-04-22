@@ -5,9 +5,9 @@
  *      Author: mastanca
  */
 
-#include "Lock.h"
+#include "common_Lock.h"
 
-#include "Mutex.h"
+#include "common_Mutex.h"
 
 Lock::Lock(Mutex &mutex) : aMutex(mutex) {
     aMutex.enableLock();

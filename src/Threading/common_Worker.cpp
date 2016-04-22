@@ -5,7 +5,7 @@
  *      Author: mastanca
  */
 
-#include "Worker.h"
+#include "common_Worker.h"
 
 Worker::~Worker() {
 }

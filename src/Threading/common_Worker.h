@@ -8,8 +8,9 @@
 #ifndef SRC_WORKER_H_
 #define SRC_WORKER_H_
 
-#include "Worker.h"
-#include "Thread.h"
+#include "common_Worker.h"
+
+#include "common_Thread.h"
 
 class Worker : public Thread {
 private:
