@@ -19,24 +19,24 @@
 #include <syslog.h>
 
 
-Socket::Socket(char* hostname, char* port) {
+Socket::Socket(std::string hostname, std::string port) {
 	int s = 0;
 	struct addrinfo hints;
 	int flag = 0;
 
-	if (hostname == NULL || !strcmp(hostname, "127.0.0.1")){
-		hostname = NULL;
+	if (hostname == "" || (hostname == "127.0.0.1")){
+		hostname = "";
 		flag = AI_PASSIVE; // Flag for server
 	}
 	// Port is received as a parameter from user, no need to convert to net
-	const char *serviceName = port;
+	const char *serviceName = port.c_str();
 
 	memset(&hints, 0, sizeof(struct addrinfo));
 	hints.ai_family = AF_INET;       /* IPv4 (or AF_INET6 for IPv6)     */
 	hints.ai_socktype = SOCK_STREAM; /* TCP  (or SOCK_DGRAM for UDP)    */
 	hints.ai_flags = flag;     	/* 0 (or AI_PASSIVE for server)           */
 
-	s = getaddrinfo(hostname, serviceName, &hints, &(this->result));
+	s = getaddrinfo(hostname.c_str(), serviceName, &hints, &(this->result));
 
 	if (s != 0) {
 		syslog(LOG_ERR, "There was an error when creating socket, "
@@ -69,8 +69,8 @@ int Socket::bind() {
 	return EXIT_SUCCESS;
 }
 
-int Socket::listen(int maxClients) {
-	if (::listen(this->fd, maxClients) == -1){
+int Socket::listen(int maxQueueSize) {
+	if (::listen(this->fd, maxQueueSize) == -1){
 		syslog(LOG_ERR, "There was an error when listening, "
 				"listen returned -1");
 		return EXIT_FAILURE;
@@ -109,7 +109,7 @@ int Socket::connect() {
 	return EXIT_SUCCESS;
 }
 
-int Socket::receive(char* buffer, int size) {
+int Socket::receive(std::string* buffer, int size) {
 	int received = 0;
 	int response = 0;
 	bool is_a_valid_socket = true;
@@ -138,7 +138,7 @@ int Socket::receive(char* buffer, int size) {
 	}
 }
 
-int Socket::send(char* buffer, int size) {
+int Socket::send(std::string* buffer, int size) {
 	int sent =0;
 	int response = 0;
 	bool is_a_valid_socket = true;
