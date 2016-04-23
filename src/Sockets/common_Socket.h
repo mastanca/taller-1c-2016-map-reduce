@@ -21,8 +21,10 @@ private:
 	int fd;
 	struct addrinfo* result;
 public:
+	// Simple constructor
+	Socket();
 	// Initiates with given parameters
-	Socket(const std::string& ip, const std::string&  port);
+	Socket(char* ip, const char*  port);
 	// Free's socket resources
 	virtual ~Socket();
 	// Binds the socket to a connection
@@ -30,13 +32,13 @@ public:
 	// Listens for new connections, up to max queue size (blocker)
 	int listen(int maxQueueSize);
 	// Accepts new connection, returns connection fd in Client's fd
-	int accept(Socket* client);
+	int accept(Socket* client) const;
 	// Connects to server (blocker)
 	int connect();
 	// Receives size bytes from the net
-	int receive(std::string* buffer, int size);
+	int receive(char* buffer, int size);
 	// Sends size bytes over the net
-	int send(std::string* buffer, int size);
+	int send(char* buffer, int size);
 };
 
 #endif /* SRC_SOCKETS_COMMON_SOCKET_H_ */

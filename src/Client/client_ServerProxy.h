@@ -18,7 +18,7 @@ private:
 	Socket socket;
 public:
 	// Constructor, leaves socket ready to go
-	ServerProxy(const std::string& ip, const std::string& port) : socket(ip, port) {
+	ServerProxy(const std::string& ip, const std::string& port) : socket((char*)ip.c_str(), port.c_str()) {
 		socket.connect();
 	}
 	// Destroyer

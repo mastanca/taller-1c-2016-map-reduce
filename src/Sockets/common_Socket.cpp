@@ -17,29 +17,31 @@
 #include <errno.h>
 #include <stdbool.h>
 #include <syslog.h>
+#include <iostream>
 
 
-Socket::Socket(const std::string& ip, const std::string& port) {
+Socket::Socket(char* ip, const char* port) {
 	int s = 0;
 	struct addrinfo hints;
 	int flag = 0;
 
-	if (ip == "" ){
+	if (ip == NULL ){
 		flag = AI_PASSIVE; // Flag for server
 	}
 	// Port is received as a parameter from user, no need to convert to net
-	const char *serviceName = port.c_str();
+	const char* serviceName = port;
+
 
 	memset(&hints, 0, sizeof(struct addrinfo));
 	hints.ai_family = AF_INET;       /* IPv4 (or AF_INET6 for IPv6)     */
 	hints.ai_socktype = SOCK_STREAM; /* TCP  (or SOCK_DGRAM for UDP)    */
 	hints.ai_flags = flag;     	/* 0 (or AI_PASSIVE for server)           */
 
-	s = getaddrinfo(ip.c_str(), serviceName, &hints, &(this->result));
+	s = getaddrinfo(ip, serviceName, &hints, &(this->result));
 
 	if (s != 0) {
 		syslog(LOG_ERR, "There was an error when creating socket, "
-				"getaddrinfo returned 0");
+				"getaddrinfo returned %d: %s", s, gai_strerror(s));
 	}
 
 	this->fd = socket(this->result->ai_family, this->result->ai_socktype,
@@ -59,9 +61,9 @@ Socket::~Socket() {
 int Socket::bind() {
 	if (::bind(this->fd, this->result->ai_addr, this->result->ai_addrlen) == -1){
 		close(this->fd);
-		freeaddrinfo(this->result);
 		syslog(LOG_ERR, "There was an error when binding the socket, "
-				"bind returned -1");
+				"bind returned -1: %s", strerror(errno));
+		freeaddrinfo(this->result);
 		return EXIT_FAILURE;
 	}
 	freeaddrinfo(this->result);
@@ -77,7 +79,7 @@ int Socket::listen(int maxQueueSize) {
 	return EXIT_SUCCESS;
 }
 
-int Socket::accept(Socket* client) {
+int Socket::accept(Socket* client) const {
 	client->fd = ::accept(this->fd, NULL, NULL);
 	if (client->fd == -1){
 		syslog(LOG_ERR, "There was an error when accepting a new client, "
@@ -108,7 +110,7 @@ int Socket::connect() {
 	return EXIT_SUCCESS;
 }
 
-int Socket::receive(std::string* buffer, int size) {
+int Socket::receive(char* buffer, int size) {
 	int received = 0;
 	int response = 0;
 	bool is_a_valid_socket = true;
@@ -137,7 +139,12 @@ int Socket::receive(std::string* buffer, int size) {
 	}
 }
 
-int Socket::send(std::string* buffer, int size) {
+Socket::Socket() {
+	result = NULL;
+	fd = -1;
+}
+
+int Socket::send(char* buffer, int size) {
 	int sent =0;
 	int response = 0;
 	bool is_a_valid_socket = true;

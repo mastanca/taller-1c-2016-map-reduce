@@ -8,10 +8,22 @@
 #ifndef SRC_SERVER_SERVER_SERVER_H_
 #define SRC_SERVER_SERVER_SERVER_H_
 
+#include <string>
+#include <vector>
+
+#include "../Sockets/common_Socket.h"
+#include "server_ClientProxy.h"
+
+#define MAX_QUEUE_SIZE 128
+
 class Server {
+private:
+	// Socket for incoming connections
+	Socket dispatcherSocket;
+	std::vector<ClientProxy*> clients;
 public:
-	// Constructor
-	Server() {}
+	// Constructor, "" chooses any local ip
+	Server(const std::string& port);
 	// Destroyer
 	virtual ~Server();
 	// This method encapsulates the server work
