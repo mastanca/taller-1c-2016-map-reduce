@@ -11,13 +11,13 @@
 #include "Client/client_Client.h"
 
 
-int main(){
-	std::cout<< "Hello Client!" << std::endl;
-	Client client;
-	client.run();
-
-	return EXIT_SUCCESS;
-
-}
+//int main(){
+//	std::cout<< "Hello Client!" << std::endl;
+//	Client client;
+//	client.run();
+//
+//	return EXIT_SUCCESS;
+//
+//}
 
 

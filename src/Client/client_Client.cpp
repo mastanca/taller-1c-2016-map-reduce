@@ -32,12 +32,11 @@ void Client::run() {
 		processInput(city, temperature, day, inputStream);
 
 		// Send to mapper
-
 		std::stringstream mappedStream;
 		Mapper mapper;
 		mapper.map(city, temperature, day, mappedStream);
 
 		std::cout << mappedStream.str() << std::endl;
 	}
-
+	std::cout << "End" << std::endl;
 }
