@@ -8,7 +8,14 @@
 #ifndef SRC_CLIENT_CLIENT_CLIENT_H_
 #define SRC_CLIENT_CLIENT_CLIENT_H_
 
+#include <iostream>
+#include <string>
+
 class Client {
+private:
+	// Processes input in the stream, separating each element into city,
+	// temperature and day
+	void processInput(std::string& city, std::string& temperature, std::string& day, std::stringstream& inputStream);
 public:
 	// Constructor
 	Client() {}

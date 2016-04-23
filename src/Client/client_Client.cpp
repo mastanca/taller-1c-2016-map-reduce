@@ -16,15 +16,20 @@
 Client::~Client() {
 }
 
+void Client::processInput(std::string& city, std::string& temperature,
+		std::string& day, std::stringstream& inputStream) {
+	inputStream >> city;
+	inputStream >> temperature;
+	inputStream >> day;
+}
+
 void Client::run() {
 	std::string inputLine, city, temperature, day;
 	std::stringstream inputStream;
 	while (std::getline(std::cin, inputLine)) {
 		// Get line from stdin and separate to variables
 		inputStream.str(inputLine);
-		inputStream >> city;
-		inputStream >> temperature;
-		inputStream >> day;
+		processInput(city, temperature, day, inputStream);
 
 		// Send to mapper
 
@@ -34,4 +39,5 @@ void Client::run() {
 
 		std::cout << mappedStream.str() << std::endl;
 	}
+
 }
