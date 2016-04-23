@@ -59,6 +59,16 @@ Socket::~Socket() {
 }
 
 int Socket::bind() {
+	// WEIRD bug here, if used the socket fd it fails
+	int anotherfd = socket(this->result->ai_family, this->result->ai_socktype, this->result->ai_protocol);
+	this->fd = anotherfd;
+
+	// TODO: ERASE THIS, ONLY FOR TESTING
+	// // Avoid time wait
+	 int option = 1;
+	 setsockopt(this->fd,SOL_SOCKET,(SO_REUSEPORT | SO_REUSEADDR),
+	 		(char*)&option,sizeof(option));
+
 	if (::bind(this->fd, this->result->ai_addr, this->result->ai_addrlen) == -1){
 		close(this->fd);
 		syslog(LOG_ERR, "There was an error when binding the socket, "

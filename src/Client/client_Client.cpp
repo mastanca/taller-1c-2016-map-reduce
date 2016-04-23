@@ -13,6 +13,8 @@
 
 #include "../MapReduce/common_Mapper.h"
 
+#define STOP_SENDING_SIGNAL "End\n"
+
 Client::~Client() {
 }
 
@@ -41,5 +43,5 @@ void Client::run() {
 
 		serverProxy.send(mappedStream.str());
 	}
-	std::cout << "End" << std::endl;
+	serverProxy.send(STOP_SENDING_SIGNAL);
 }

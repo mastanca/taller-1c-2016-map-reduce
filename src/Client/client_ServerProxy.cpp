@@ -7,12 +7,15 @@
 
 #include "client_ServerProxy.h"
 
-#include <iostream>
+#include <syslog.h>
+#include <cstring>
+#include <errno.h>
 
 ServerProxy::~ServerProxy() {
 }
 
 void ServerProxy::send(const std::string& data) {
-	std::cout << data << std::endl;
-	// TODO: Make this right
+	if (this->socket.send((char*)data.c_str(), data.length()) == -1){
+		syslog(LOG_ERR, "There was an error while sending data %s", strerror(errno));
+	}
 }
