@@ -12,14 +12,17 @@
 #include <iostream>
 #include <string>
 
+#include "client_ServerProxy.h"
+
 class Client {
 private:
+	ServerProxy serverProxy;
 	// Processes input in the stream, separating each element into city,
 	// temperature and day
 	void processInput(std::string& city, float& temperature, uint& day, std::stringstream& inputStream);
 public:
 	// Constructor
-	Client() {}
+	Client(const std::string& ip, const std::string& port) : serverProxy(ip, port) {}
 	// Destroyer
 	virtual ~Client();
 	// This public method encapsulates the working of the client

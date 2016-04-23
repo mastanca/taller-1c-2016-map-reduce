@@ -11,13 +11,13 @@
 #include "Server/server_Server.h"
 
 
-int main(){
-	std::cout<< "Hello Server!" << std::endl;
-	Server server;
-	server.run();
-	return EXIT_SUCCESS;
-
-}
+//int main(){
+//	std::cout<< "Server!" << std::endl;
+//	Server server;
+//	server.run();
+//	return EXIT_SUCCESS;
+//
+//}
 
 
 

@@ -24,6 +24,7 @@ void Client::processInput(std::string& city, float& temperature,
 }
 
 void Client::run() {
+
 	std::string inputLine, city;
 	float temperature;
 	uint day;
@@ -38,7 +39,7 @@ void Client::run() {
 		Mapper mapper;
 		mapper.map(city, temperature, day, mappedStream);
 
-		std::cout << mappedStream.str() << std::endl;
+		serverProxy.send(mappedStream.str());
 	}
 	std::cout << "End" << std::endl;
 }

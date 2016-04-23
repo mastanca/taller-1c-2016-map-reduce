@@ -19,13 +19,12 @@
 #include <syslog.h>
 
 
-Socket::Socket(std::string hostname, std::string port) {
+Socket::Socket(const std::string& ip, const std::string& port) {
 	int s = 0;
 	struct addrinfo hints;
 	int flag = 0;
 
-	if (hostname == "" || (hostname == "127.0.0.1")){
-		hostname = "";
+	if (ip == "" ){
 		flag = AI_PASSIVE; // Flag for server
 	}
 	// Port is received as a parameter from user, no need to convert to net
@@ -36,7 +35,7 @@ Socket::Socket(std::string hostname, std::string port) {
 	hints.ai_socktype = SOCK_STREAM; /* TCP  (or SOCK_DGRAM for UDP)    */
 	hints.ai_flags = flag;     	/* 0 (or AI_PASSIVE for server)           */
 
-	s = getaddrinfo(hostname.c_str(), serviceName, &hints, &(this->result));
+	s = getaddrinfo(ip.c_str(), serviceName, &hints, &(this->result));
 
 	if (s != 0) {
 		syslog(LOG_ERR, "There was an error when creating socket, "

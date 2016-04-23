@@ -22,7 +22,7 @@ private:
 	struct addrinfo* result;
 public:
 	// Initiates with given parameters
-	Socket(std::string hostname, std::string port);
+	Socket(const std::string& ip, const std::string&  port);
 	// Free's socket resources
 	virtual ~Socket();
 	// Binds the socket to a connection
