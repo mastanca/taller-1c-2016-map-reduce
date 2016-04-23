@@ -7,12 +7,12 @@
 
 #include "common_Value.h"
 
-const std::string& Value::getFirstElement() const {
-	return firstElement;
+const std::string& Value::getCity() const {
+	return city;
 }
 
-const std::string& Value::getSecondElement() const {
-	return secondElement;
+float Value::getTemperature() const {
+	return temperature;
 }
 
 Value::~Value() {

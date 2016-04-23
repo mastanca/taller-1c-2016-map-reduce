@@ -11,7 +11,7 @@
 #define SPACE " "
 
 void Mapper::map(const std::string& city,
-		const std::string& temperature, const std::string& day, std::stringstream& outputStream) {
+		const float& temperature, const uint& day, std::stringstream& outputStream) {
 	// Return day, temperature, city
 	outputStream << day << SPACE;
 	outputStream << temperature << SPACE;

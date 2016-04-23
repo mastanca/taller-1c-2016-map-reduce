@@ -16,15 +16,17 @@
 Client::~Client() {
 }
 
-void Client::processInput(std::string& city, std::string& temperature,
-		std::string& day, std::stringstream& inputStream) {
+void Client::processInput(std::string& city, float& temperature,
+		uint& day, std::stringstream& inputStream) {
 	inputStream >> city;
 	inputStream >> temperature;
 	inputStream >> day;
 }
 
 void Client::run() {
-	std::string inputLine, city, temperature, day;
+	std::string inputLine, city;
+	float temperature;
+	uint day;
 	std::stringstream inputStream;
 	while (std::getline(std::cin, inputLine)) {
 		// Get line from stdin and separate to variables

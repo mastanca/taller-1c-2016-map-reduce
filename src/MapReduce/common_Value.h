@@ -13,16 +13,15 @@
 class Value {
 private:
 	// We will have only 2 values in this case
-	std::string firstElement, secondElement;
+	float temperature;
+	std::string city;
 public:
 	// Constructor
-	Value(std::string firstElement, std::string secondElement) : firstElement(firstElement), secondElement(secondElement) {}
+	Value(float temperature, std::string city) : temperature(temperature), city(city) {}
 	// Destroyer
 	virtual ~Value();
-	// Return first element
-	const std::string& getFirstElement() const;
-	// Return second element
-	const std::string& getSecondElement() const;
+	const std::string& getCity() const;
+	float getTemperature() const;
 };
 
 #endif /* SRC_MAPREDUCE_COMMON_VALUE_H_ */

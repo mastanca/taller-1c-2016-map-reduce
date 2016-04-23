@@ -7,6 +7,7 @@
 
 #include "common_Reducer.h"
 
+#include <sys/types.h>
 #include <iostream>
 #include <iterator>
 #include <sstream>
@@ -16,25 +17,24 @@
 Reducer::~Reducer() {
 }
 
-void Reducer::reduce(const std::string& day, std::vector<Value*>& valuesList) {
-	// firstElement of valuesList is the temperature, second one is the city
-
+void Reducer::reduce(const uint& day, std::vector<Value*>& valuesList) {
 	float temperature = ABSOLUTE_ZERO;
-	float auxTemperature;
-	std::stringstream city, inputTemperature; // Use stringstream here to support multiple cities
+	std::stringstream city; // Use stringstream here to support multiple cities
 
 	for (std::vector<Value*>::iterator it = valuesList.begin();
 			it != valuesList.end(); ++it) {
-		// Convert incoming string to float to compare
-		inputTemperature.str((*it)->getFirstElement());
-		std::string testing = inputTemperature.str();
-		inputTemperature >> auxTemperature; // Bug here when 14
+		// If value's temperature is greater than temperature then save it
+		if ((*it)->getTemperature() > temperature){
+			temperature = (*it)->getTemperature();
+			// Build city stringstream from scratch
+			city.str(std::string());
+			city.clear();
+			city << (*it)->getCity();
+		} else if ((*it)->getTemperature() == temperature){
+			// If its equal append the city
+			// TODO: Should be ordered alphabetically?
+			city << "/" + (*it)->getCity();
 
-		if (auxTemperature > temperature){
-			temperature = auxTemperature;
-			city << (*it)->getSecondElement();
-		} else if (auxTemperature == temperature){
-			city << "/" + (*it)->getSecondElement();
 		}
 	}
 

@@ -8,6 +8,7 @@
 #ifndef SRC_MAPREDUCE_COMMON_MAPPER_H_
 #define SRC_MAPREDUCE_COMMON_MAPPER_H_
 
+#include <sys/types.h>
 #include <iostream>
 #include <string>
 
@@ -16,7 +17,7 @@ public:
 	// Constructor
 	Mapper() {}
 	// Maps (city, temperature, day) to (day, temperature, city)
-	void map(const std::string& city, const std::string& temperature, const std::string& day, std::stringstream& outputStream);
+	void map(const std::string& city, const float& temperature, const uint& day, std::stringstream& outputStream);
 	// Destroyer
 	virtual ~Mapper();
 };
