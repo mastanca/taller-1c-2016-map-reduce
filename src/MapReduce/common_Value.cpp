@@ -11,6 +11,9 @@ const std::string& Value::getCity() const {
 	return city;
 }
 
+Value::Value() {
+}
+
 float Value::getTemperature() const {
 	return temperature;
 }

@@ -10,10 +10,12 @@
 #include <sys/types.h>
 #include <iostream>
 #include <iterator>
+#include <utility>
 #include <sstream>
 
 #include "../MapReduce/common_Reducer.h"
 #include "../MapReduce/common_Value.h"
+#include "../Others/common_InputParser.h"
 
 Server::~Server() {
 	// Free client proxys
@@ -33,32 +35,18 @@ Server::Server(const std::string& port) {
 }
 
 void Server::run() {
-	std::string inputLine, city;
-	float temperature;
-	uint day;
+	std::string inputLine;
 	// Getting the first one for testing
 	clients.back()->receive(inputLine);
-	std::stringstream ss(inputLine);
-	ss >> day;
-	ss >> temperature;
-	ss >> city;
-	Value value = Value(temperature, city);
+	InputParser parser;
+	std::vector<std::pair<uint, Value> > tuplesVector = parser.parse(inputLine);
 	Reducer reducer;
-//	Value value1 = Value(22, "BuenosAires");
-//	Value value2 = Value(3, "Chaco");
-//	Value value3 = Value(22, "Rawson");
-//	Value value4 = Value(8, "Mendoza");
-//	Value value5 = Value(22, "Pinamar");
-//	uint testDay = 5;
-	std::vector<Value*> vec;
-	vec.push_back(&value);
-//	vec.push_back(&value1);
-//	vec.push_back(&value2);
-//	vec.push_back(&value3);
-//	vec.push_back(&value4);
-//	vec.push_back(&value5);
-
-
-//	reducer.reduce(testDay, vec);
-	reducer.reduce(day, vec);
+	for (std::vector<std::pair<uint, Value> >::iterator it = tuplesVector.begin();
+			it != tuplesVector.end(); ++it) {
+		// TODO: Use vec cause in future we need all of the same day
+		std::vector<Value*> vec;
+		vec.push_back(&((*it).second));
+		uint day = (*it).first;
+		reducer.reduce(day, vec);
+	}
 }

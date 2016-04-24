@@ -36,8 +36,8 @@ void ClientProxy::receive(std::string& incomingData) {
 	bool keepReceiving = true;
 	std::string newData;
 	char buffer[MAX_BUFFER_SIZE];
-	memset(&buffer[0], 0, sizeof(buffer));
 	while (keepReceiving){
+		memset(&buffer[0], 0, sizeof(buffer));
 		 if (socket.receive(&buffer[0], MAX_BUFFER_SIZE) == -1){
 			 keepReceiving = false;
 			 syslog(LOG_ERR, "There was an error receiving from socket");
