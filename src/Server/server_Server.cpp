@@ -18,6 +18,8 @@
 #include "../MapReduce/common_Value.h"
 #include "../Others/common_InputParser.h"
 
+#define STOP_LISTENING "q"
+
 Server::~Server() {
 	// Free client proxys
 	for (std::vector<ClientProxy*>::iterator it = clients.begin();
@@ -29,7 +31,7 @@ Server::~Server() {
 Server::Server(const std::string& port) {
 	dispatcherSocket = Socket(NULL, port.c_str());
 	dispatcherSocket.bind();
-	// Move this to a tread eventually
+	// Move this to a thread eventually
 	dispatcherSocket.listen(MAX_QUEUE_SIZE);
 	clients.push_back(new ClientProxy());
 	clients.back()->acceptNewConnection(dispatcherSocket);

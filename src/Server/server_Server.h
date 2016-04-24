@@ -24,6 +24,7 @@ class Server {
 private:
 	// Socket for incoming connections
 	Socket dispatcherSocket;
+	// Clients vector
 	std::vector<ClientProxy*> clients;
 public:
 	// Constructor, "" chooses any local ip
