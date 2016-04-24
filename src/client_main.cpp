@@ -12,16 +12,16 @@
 #include "Client/client_Client.h"
 
 
-//int main(int argc, char *argv[]){
-//	if (argc != 3){
-//		syslog(LOG_ERR, "Client: Invalid number of arguments");
-//		return EXIT_FAILURE;
-//	}
-//	std::string ip(argv[1]);
-//	std::string port(argv[2]);
-//
-//	Client client(ip, port);
-//	client.run();
-//
-//	return EXIT_SUCCESS;
-//}
+int main(int argc, char *argv[]){
+	if (argc != 3){
+		syslog(LOG_ERR, "Client: Invalid number of arguments");
+		return EXIT_FAILURE;
+	}
+	std::string ip(argv[1]);
+	std::string port(argv[2]);
+
+	Client client(ip, port);
+	client.run();
+
+	return EXIT_SUCCESS;
+}
