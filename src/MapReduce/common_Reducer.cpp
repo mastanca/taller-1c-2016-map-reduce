@@ -14,9 +14,11 @@
 #include <utility>
 #include <string>
 #include <vector>
+#include <algorithm>
 
 
 #define ABSOLUTE_ZERO -273.15
+#define CITIES_SEPARATOR "/"
 
 Reducer::~Reducer() {
 }
@@ -24,24 +26,35 @@ Reducer::~Reducer() {
 std::pair<uint, std::string> Reducer::reduce(const uint& day,
 		std::vector<Value>& valuesList) {
 	float temperature = ABSOLUTE_ZERO;
-	std::stringstream city; // Use stringstream here to support multiple cities
+	std::vector<std::string> citiesVector;
 
 	for (std::vector<Value>::iterator it = valuesList.begin();
 			it != valuesList.end(); ++it) {
 		// If value's temperature is greater than temperature then save it
 		if ((*it).getTemperature() > temperature) {
 			temperature = (*it).getTemperature();
-			// Build city stringstream from scratch
-			city.str(std::string());
-			city.clear();
-			city << (*it).getCity();
+			// Erase old vector before adding
+			citiesVector.erase(citiesVector.begin(), citiesVector.end());
+			citiesVector.push_back((*it).getCity());
 		} else if ((*it).getTemperature() == temperature) {
 			// If its equal append the city
-			// TODO: Should be ordered alphabetically?
-			city << "/" + (*it).getCity();
+			citiesVector.push_back((*it).getCity());
 		}
 	}
 	std::stringstream finalStream;
-	finalStream << ": " << city.str() << " (" << temperature << ")";
+	finalStream << ": " << getSortedCitiesVector(&citiesVector) << " (" << temperature << ")";
 	return std::make_pair(day, finalStream.str());
+}
+
+std::string Reducer::getSortedCitiesVector(std::vector<std::string>* citiesVector){
+	std::string stringToReturn;
+	std::sort(citiesVector->begin(), citiesVector->end());
+	for (std::vector<std::string>::iterator it = citiesVector->begin();
+			it != citiesVector->end(); ++it) {
+		stringToReturn.append(*it);
+		if (it != citiesVector->end() - 1){
+			stringToReturn.append(CITIES_SEPARATOR);
+		}
+	}
+	return stringToReturn;
 }
