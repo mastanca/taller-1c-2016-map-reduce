@@ -11,6 +11,7 @@
 #include <string>
 #include <vector>
 
+#include "../Threading/common_Mutex.h"
 #include "../Threading/common_Thread.h"
 #include "server_ClientProxy.h"
 
@@ -29,6 +30,11 @@ public:
 	virtual ~ReceiverWorker();
 	// Run the worker
 	void run();
+private:
+	// Mutex for threading
+	Mutex mutex;
+	// Wrapper for mapped data structure accessing
+	void storeMappedData(const std::string& data);
 };
 
 #endif /* SRC_SERVER_SERVER_RECEIVERWORKER_H_ */

@@ -11,8 +11,11 @@
 #include <string>
 #include <vector>
 
+#include "../Threading/common_Mutex.h"
 #include "../Threading/common_Thread.h"
 #include "server_ClientProxy.h"
+
+class ReceiverWorker;
 
 class Socket;
 
@@ -35,6 +38,13 @@ public:
 	virtual ~AcceptorWorker();
 	// Run the worker
 	void run();
+private:
+	// Mutex for wrapping
+	Mutex mutex;
+	// Clients vector push wrapper
+	void saveClient(ClientProxy* client);
+	// Launched threads push wrapper
+	void saveWorker(ReceiverWorker* worker);
 };
 
 #endif /* SRC_SERVER_SERVER_ACCEPTORWORKER_H_ */

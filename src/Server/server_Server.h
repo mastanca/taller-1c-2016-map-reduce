@@ -14,6 +14,7 @@
 #include <vector>
 
 #include "../Sockets/common_Socket.h"
+#include "../Threading/common_Mutex.h"
 #include "../Threading/common_Thread.h"
 #include "server_ClientProxy.h"
 
@@ -35,6 +36,8 @@ private:
 	void callAcceptorWorker();
 	// Joins reducer workers and prints results
 	void printFinalResults();
+	// Mutex for threading
+	Mutex mutex;
 public:
 	// Constructor
 	Server(const std::string& port);

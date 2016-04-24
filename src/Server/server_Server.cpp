@@ -40,8 +40,10 @@ Server::Server(const std::string& port) {
 }
 
 void Server::run() {
+	// Threading area 1
 	callAcceptorWorker();
 
+	/////////////////////////////////////////////////////////////////////////
 	// We will receive all the data in inputline and then parse it all
 	InputParser parser;
 	// Big structure here, we need a vector to hold the vectors of tuples
@@ -63,8 +65,9 @@ void Server::run() {
 			map[day].push_back(value);
 		}
 	}
+	//////////////////////////////////////////////////////////////////////////
 
-
+	// Threading area 2
 	// Now that we have our map we iterate over it and reduce each key
 	for (std::map<uint, std::vector<Value> >::iterator it = map.begin();
 			it != map.end(); ++it) {
@@ -85,6 +88,8 @@ void Server::printFinalResults() {
 	}
 
 	// Sort by day
+	// According to docs, pair overrides "<" to compare first by key then by
+	// value
 	std::sort(reducedData.begin(), reducedData.end());
 
 	// Finally print

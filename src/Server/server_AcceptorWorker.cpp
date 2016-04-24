@@ -6,6 +6,11 @@
  */
 
 #include "server_AcceptorWorker.h"
+
+#include <iterator>
+
+#include "../Sockets/common_Socket.h"
+#include "../Threading/common_Lock.h"
 #include "server_ReceiverWorker.h"
 
 #define MAX_QUEUE_SIZE 128
@@ -33,13 +38,13 @@ void AcceptorWorker::run() {
 		if (availableConnections > 0){
 			for (int i = 0; i < availableConnections; ++i) {
 				ClientProxy* client = new ClientProxy;
-				clients.push_back(client);
+				saveClient(client);
 				client->acceptNewConnection(*dispatcherSocket);
 				if (client->isConnected()){
 					// Spawn a receiver worker
 					// It will call our client proxy's receive method
 					ReceiverWorker* receiverWorker = new ReceiverWorker(client, mappedData);
-					launchedThreads.push_back(receiverWorker);
+					saveWorker(receiverWorker);
 					receiverWorker->start();
 				}
 			}
@@ -58,4 +63,16 @@ AcceptorWorker::AcceptorWorker(Socket* dispatcherSocket, bool* keepOnListening,
 		dispatcherSocket(dispatcherSocket), keepOnListening(keepOnListening),
 		mappedData(mappedData) {
 	dispatcherSocket->listen(MAX_QUEUE_SIZE);
+}
+
+void AcceptorWorker::saveClient(ClientProxy* client) {
+	// Accessing shared resource
+	Lock lock(mutex);
+	clients.push_back(client);
+}
+
+void AcceptorWorker::saveWorker(ReceiverWorker* worker) {
+	// Accessing shared resource
+	Lock lock(mutex);
+	launchedThreads.push_back(worker);
 }
