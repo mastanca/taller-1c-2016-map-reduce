@@ -33,7 +33,8 @@ void AcceptorWorker::run() {
 		client->acceptNewConnection(*dispatcherSocket);
 		if (client->isConnected()){
 			// Spawn a receiver worker
-			ReceiverWorker* receiverWorker = new ReceiverWorker();
+			// It will call our client proxy's receive method
+			ReceiverWorker* receiverWorker = new ReceiverWorker(client, mappedData);
 			launchedThreads.push_back(receiverWorker);
 			receiverWorker->start();
 		}

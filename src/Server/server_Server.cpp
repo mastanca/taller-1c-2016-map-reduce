@@ -28,28 +28,40 @@ Server::Server(const std::string& port) {
 	dispatcherSocket = Socket(NULL, port.c_str());
 	dispatcherSocket.bind();
 	// Move this to a thread eventually
-	dispatcherSocket.listen(MAX_QUEUE_SIZE);
-	clients.push_back(new ClientProxy());
-	clients.back()->acceptNewConnection(dispatcherSocket);
+//	dispatcherSocket.listen(MAX_QUEUE_SIZE);
+//	clients.push_back(new ClientProxy());
+//	clients.back()->acceptNewConnection(dispatcherSocket);
 }
 
 void Server::run() {
 	callAcceptorWorker();
-	std::string inputLine;
-	// TODO: Use multiple clients
-	clients.back()->receive(inputLine);
+//	std::string inputLine;
+//	// TODO: Use multiple clients
+//	clients.back()->receive(inputLine);
+	// We will receive all the data in inputline and then parse it all
 	InputParser parser;
-	std::vector<std::pair<uint, Value> > tuplesVector = parser.parse(inputLine);
+	// Big structure here
+	std::vector< std::vector<std::pair<uint, Value> > > vectorOfTuplesVectors;
+	for (std::vector<std::string>::iterator it =
+			mappedData.begin(); it != mappedData.end(); ++it) {
+		std::vector<std::pair<uint, Value> > tuplesVector = parser.parse(*it);
+		vectorOfTuplesVectors.push_back(tuplesVector);
+	}
+
 	Reducer reducer;
 
 	// We need to create a map of (day, [Values])
 	std::map<uint, std::vector<Value> > map;
-	for (std::vector<std::pair<uint, Value> >::iterator it =
-			tuplesVector.begin(); it != tuplesVector.end(); ++it) {
-		Value value = (*it).second;
-		uint day = (*it).first;
-		map[day].push_back(value);
+	for (std::vector< std::vector<std::pair<uint, Value> > >::iterator bigIt =
+			vectorOfTuplesVectors.begin(); bigIt != vectorOfTuplesVectors.end(); ++bigIt) {
+		for (std::vector<std::pair<uint, Value> >::iterator it =
+				(*bigIt).begin(); it != (*bigIt).end(); ++it) {
+			Value value = (*it).second;
+			uint day = (*it).first;
+			map[day].push_back(value);
+		}
 	}
+
 
 	// Now that we have our map we iterate over it and reduce each key
 	for (std::map<uint, std::vector<Value> >::iterator it = map.begin();

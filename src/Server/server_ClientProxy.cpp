@@ -27,7 +27,9 @@ ClientProxy::~ClientProxy() {
 }
 
 void ClientProxy::acceptNewConnection(const Socket& dispatcherSocket) {
-	dispatcherSocket.accept(&socket);
+	if (dispatcherSocket.accept(&socket) == 0){
+		connected = true;
+	}
 }
 
 void ClientProxy::receive(std::string& incomingData) {

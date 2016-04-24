@@ -7,13 +7,11 @@
 
 #include "server_ReceiverWorker.h"
 
-ReceiverWorker::ReceiverWorker() {
-
-}
-
 ReceiverWorker::~ReceiverWorker() {
 }
 
 void ReceiverWorker::run() {
-	// TODO: Do my stuff
+	std::string inboundData;
+	client->receive(inboundData);
+	mappedData->push_back(inboundData);
 }
