@@ -29,5 +29,8 @@ std::vector<std::pair<uint, Value> > InputParser::parse(
 		aPair = std::make_pair(day, value);
 		tuplesVector.push_back(aPair);
 	}
+	// Due to implementation the last pair is pushed twice,
+	// as we are short of time lets just pop it
+	tuplesVector.pop_back();
 	return tuplesVector;
 }

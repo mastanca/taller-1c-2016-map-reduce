@@ -21,7 +21,7 @@ public:
 	virtual ~Reducer();
 	// Reduces day, [(temperature1, city2), (temperature2, city2), ...] to
 	// the day/s with the highest temperature
-	void reduce(const uint& day, std::vector<Value*>& valuesList);
+	void reduce(const uint& day, std::vector<Value>& valuesList);
 };
 
 #endif /* SRC_MAPREDUCE_COMMON_REDUCER_H_ */

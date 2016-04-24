@@ -8,9 +8,13 @@
 #ifndef SRC_SERVER_SERVER_SERVER_H_
 #define SRC_SERVER_SERVER_SERVER_H_
 
+#include <sys/types.h>
+#include <map>
 #include <string>
+#include <utility>
 #include <vector>
 
+#include "../MapReduce/common_Value.h"
 #include "../Sockets/common_Socket.h"
 #include "server_ClientProxy.h"
 

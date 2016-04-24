@@ -12,6 +12,7 @@
 #include <iterator>
 #include <utility>
 #include <sstream>
+#include <map>
 
 #include "../MapReduce/common_Reducer.h"
 #include "../MapReduce/common_Value.h"
@@ -36,17 +37,25 @@ Server::Server(const std::string& port) {
 
 void Server::run() {
 	std::string inputLine;
-	// Getting the first one for testing
+	// TODO: Use multiple clients
 	clients.back()->receive(inputLine);
 	InputParser parser;
 	std::vector<std::pair<uint, Value> > tuplesVector = parser.parse(inputLine);
 	Reducer reducer;
-	for (std::vector<std::pair<uint, Value> >::iterator it = tuplesVector.begin();
-			it != tuplesVector.end(); ++it) {
-		// TODO: Use vec cause in future we need all of the same day
-		std::vector<Value*> vec;
-		vec.push_back(&((*it).second));
+
+	// We need to create a map of (day, [Values])
+	std::map<uint, std::vector<Value> > map;
+	for (std::vector<std::pair<uint, Value> >::iterator it =
+			tuplesVector.begin(); it != tuplesVector.end(); ++it) {
+		Value value = (*it).second;
 		uint day = (*it).first;
-		reducer.reduce(day, vec);
+		map[day].push_back(value);
 	}
+
+	// Now that we have our map we iterate over it and reduce each key
+	for (std::map<uint, std::vector<Value> >::iterator it = map.begin();
+			it != map.end(); ++it) {
+		reducer.reduce((*it).first, (*it).second);
+	}
+
 }
