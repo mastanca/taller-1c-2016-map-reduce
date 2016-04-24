@@ -34,6 +34,7 @@ void ClientProxy::acceptNewConnection(const Socket& dispatcherSocket) {
 
 void ClientProxy::receive(std::string& incomingData) {
 	bool keepReceiving = true;
+	// Done workaround of size + 1 to avoid valgrind error
 	char buffer[MAX_BUFFER_SIZE + 1];
 	buffer[MAX_BUFFER_SIZE] = 0;
 	while (keepReceiving){

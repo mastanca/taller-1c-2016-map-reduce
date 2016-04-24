@@ -55,7 +55,8 @@ Socket::Socket(char* ip, const char* port) {
 
 Socket::~Socket() {
 	shutdown(this->fd, SHUT_RDWR);
-	close(this->fd);
+	if (fd != -1)
+		close(this->fd);
 }
 
 int Socket::bind() {
