@@ -27,16 +27,22 @@ AcceptorWorker::~AcceptorWorker() {
 }
 
 void AcceptorWorker::run() {
-	while(keepOnListening) {
-		ClientProxy* client = new ClientProxy;
-		clients.push_back(client);
-		client->acceptNewConnection(*dispatcherSocket);
-		if (client->isConnected()){
-			// Spawn a receiver worker
-			// It will call our client proxy's receive method
-			ReceiverWorker* receiverWorker = new ReceiverWorker(client, mappedData);
-			launchedThreads.push_back(receiverWorker);
-			receiverWorker->start();
+	while(*keepOnListening) {
+		// If there are connections available...
+		int availableConnections = dispatcherSocket->select();
+		if (availableConnections > 0){
+			for (int i = 0; i < availableConnections; ++i) {
+				ClientProxy* client = new ClientProxy;
+				clients.push_back(client);
+				client->acceptNewConnection(*dispatcherSocket);
+				if (client->isConnected()){
+					// Spawn a receiver worker
+					// It will call our client proxy's receive method
+					ReceiverWorker* receiverWorker = new ReceiverWorker(client, mappedData);
+					launchedThreads.push_back(receiverWorker);
+					receiverWorker->start();
+				}
+			}
 		}
 	}
 

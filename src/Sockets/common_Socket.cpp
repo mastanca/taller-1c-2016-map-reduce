@@ -182,3 +182,23 @@ int Socket::send(char* buffer, int size) {
 		return -EXIT_FAILURE;
 	}
 }
+
+// Needed some workaround here, after debate/investigation with partners we
+// reached select. Halts the socket for tv while fetching connections
+int Socket::select() {
+	int socketsReady;
+
+	fd_set fdsetSocket;
+	FD_ZERO(&fdsetSocket);
+	FD_SET(this->fd, &fdsetSocket);
+
+	struct timeval tv;
+	tv.tv_sec = 0;
+	tv.tv_usec = 10000 * 100 * 10; //1msec * 100 = 1 sec * 10 = 10 sec
+
+	if ((socketsReady = ::select(FD_SETSIZE, &fdsetSocket, NULL, NULL, &tv))
+			< 0)
+		std::cout << "Error: " << strerror(errno) << std::endl;
+
+	return socketsReady;
+}
