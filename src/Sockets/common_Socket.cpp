@@ -124,15 +124,15 @@ int Socket::receive(char* buffer, int size) {
 	int received = 0;
 	int response = 0;
 	bool is_a_valid_socket = true;
+	bool closed_socket = false;
 
-	while (received < size && is_a_valid_socket) {
+	while (received < size && is_a_valid_socket && !closed_socket) {
 		response = recv(this->fd, &buffer[received], size-received, MSG_NOSIGNAL);
 
 		if (response == 0){
 			// Socket was closed
-			is_a_valid_socket = false;
-			syslog(LOG_WARNING, "There was an error when receiving data from socket, "
-					"socket was closed");
+			closed_socket = true;
+			syslog(LOG_INFO, "Socket was closed");
 		}else if (response < 0) {
 			// There was an error
 			is_a_valid_socket = false;

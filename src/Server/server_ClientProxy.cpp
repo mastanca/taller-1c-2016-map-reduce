@@ -8,6 +8,7 @@
 #include "server_ClientProxy.h"
 
 #include <syslog.h>
+#include <cstring>
 #include <string>
 
 #define MAX_BUFFER_SIZE 64
@@ -35,6 +36,7 @@ void ClientProxy::receive(std::string& incomingData) {
 	bool keepReceiving = true;
 	std::string newData;
 	char buffer[MAX_BUFFER_SIZE];
+	memset(&buffer[0], 0, sizeof(buffer));
 	while (keepReceiving){
 		 if (socket.receive(&buffer[0], MAX_BUFFER_SIZE) == -1){
 			 keepReceiving = false;
@@ -47,6 +49,6 @@ void ClientProxy::receive(std::string& incomingData) {
 		 }
 	}
 	// Lets play with this a little and just erase the end condition
-	newData.erase(newData.find_first_of(STOP_RECEIVING_CONDITION));
+	newData.erase(newData.length() - sizeof(STOP_RECEIVING_CONDITION) + 1, newData.length());
 	incomingData = newData;
 }

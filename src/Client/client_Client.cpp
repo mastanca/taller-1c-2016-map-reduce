@@ -41,7 +41,7 @@ void Client::run() {
 		Mapper mapper;
 		mapper.map(city, temperature, day, mappedStream);
 
-		serverProxy.send(mappedStream.str());
+		serverProxy.send(mappedStream.str() + "\n");
 	}
 	serverProxy.send(STOP_SENDING_SIGNAL);
 }
