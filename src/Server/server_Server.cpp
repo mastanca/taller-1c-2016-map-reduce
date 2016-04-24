@@ -71,6 +71,7 @@ void Server::run() {
 	// Now that we have our map we iterate over it and reduce each key
 	for (std::map<uint, std::vector<Value> >::iterator it = map.begin();
 			it != map.end(); ++it) {
+		// Each worker accesses only his vector, should be no race condition
 		ReducerWorker* reducerWorker = new ReducerWorker((*it).first, &(*it).second, &reducedData);
 		reducers.push_back(reducerWorker);
 		reducerWorker->start();

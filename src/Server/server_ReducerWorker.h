@@ -14,6 +14,7 @@
 #include "../MapReduce/common_Reducer.h"
 #include "../MapReduce/common_Value.h"
 #include "../Threading/common_Thread.h"
+#include "../Threading/common_Mutex.h"
 
 class ReducerWorker: public Thread {
 private:
@@ -34,6 +35,11 @@ public:
 	virtual ~ReducerWorker();
 	// Run the worker
 	void run();
+private:
+	// Mutex for threading
+	Mutex mutex;
+	// Reduced data structure accessor wrapper
+	void storeReducedData(std::pair<uint, std::string> data);
 };
 
 #endif /* SRC_SERVER_SERVER_REDUCERWORKER_H_ */

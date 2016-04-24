@@ -7,10 +7,21 @@
 
 #include "server_ReducerWorker.h"
 
+#include <string>
+#include <utility>
+
+#include "../Threading/common_Lock.h"
+
 ReducerWorker::~ReducerWorker() {
 }
 
 void ReducerWorker::run() {
 	// So finally reduce
-	reducedData->push_back(reducer.reduce(day, *valuesVector));
+	storeReducedData(reducer.reduce(day, *valuesVector));
+}
+
+void ReducerWorker::storeReducedData(std::pair<uint, std::string> data) {
+	// Secure access to shared resource
+	Lock lock(mutex);
+	reducedData->push_back(data);
 }
