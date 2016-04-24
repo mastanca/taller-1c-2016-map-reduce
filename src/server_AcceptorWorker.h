@@ -11,7 +11,7 @@
 #include <string>
 #include <vector>
 
-#include "../Threading/common_Thread.h"
+#include "common_Thread.h"
 #include "server_ClientProxy.h"
 
 class Socket;

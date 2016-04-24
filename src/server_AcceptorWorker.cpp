@@ -9,8 +9,8 @@
 
 #include <iterator>
 
-#include "../Sockets/common_Socket.h"
-#include "../Threading/common_Lock.h"
+#include "common_Socket.h"
+#include "common_Lock.h"
 #include "server_ReceiverWorker.h"
 
 #define MAX_QUEUE_SIZE 128

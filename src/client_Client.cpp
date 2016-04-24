@@ -11,7 +11,7 @@
 #include <sstream>
 #include <string>
 
-#include "../MapReduce/common_Mapper.h"
+#include "common_Mapper.h"
 
 #define STOP_SENDING_SIGNAL "End\n"
 

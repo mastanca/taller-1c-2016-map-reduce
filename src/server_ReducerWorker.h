@@ -11,10 +11,10 @@
 #include <sys/types.h>
 #include <vector>
 
-#include "../MapReduce/common_Reducer.h"
-#include "../MapReduce/common_Value.h"
-#include "../Threading/common_Thread.h"
-#include "../Threading/common_Mutex.h"
+#include "common_Reducer.h"
+#include "common_Value.h"
+#include "common_Thread.h"
+#include "common_Mutex.h"
 
 class ReducerWorker: public Thread {
 private:

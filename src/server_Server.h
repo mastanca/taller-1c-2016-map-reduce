@@ -13,8 +13,8 @@
 #include <utility>
 #include <vector>
 
-#include "../Sockets/common_Socket.h"
-#include "../Threading/common_Thread.h"
+#include "common_Socket.h"
+#include "common_Thread.h"
 #include "server_ClientProxy.h"
 
 #define MAX_QUEUE_SIZE 128

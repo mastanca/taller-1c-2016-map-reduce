@@ -11,8 +11,8 @@
 #include <string>
 #include <vector>
 
-#include "../Threading/common_Mutex.h"
-#include "../Threading/common_Thread.h"
+#include "common_Mutex.h"
+#include "common_Thread.h"
 #include "server_ClientProxy.h"
 
 class ReceiverWorker: public Thread {

@@ -12,7 +12,7 @@
 #include <map>
 #include <algorithm>
 
-#include "../Others/common_InputParser.h"
+#include "common_InputParser.h"
 #include "server_AcceptorWorker.h"
 #include "server_ReducerWorker.h"
 

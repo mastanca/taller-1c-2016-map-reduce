@@ -10,7 +10,7 @@
 
 #include <string>
 
-#include "../Sockets/common_Socket.h"
+#include "common_Socket.h"
 
 class ServerProxy {
 private:

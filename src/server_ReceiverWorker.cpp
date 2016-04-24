@@ -7,7 +7,7 @@
 
 #include "server_ReceiverWorker.h"
 
-#include "../Threading/common_Lock.h"
+#include "common_Lock.h"
 
 ReceiverWorker::~ReceiverWorker() {
 }

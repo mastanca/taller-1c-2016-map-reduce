@@ -13,7 +13,7 @@
 #include <utility>
 #include <vector>
 
-#include "../MapReduce/common_Value.h"
+#include "common_Value.h"
 
 class InputParser {
 public:

@@ -8,7 +8,7 @@
 #ifndef SRC_SERVER_SERVER_CLIENTPROXY_H_
 #define SRC_SERVER_SERVER_CLIENTPROXY_H_
 
-#include "../Sockets/common_Socket.h"
+#include "common_Socket.h"
 
 class ClientProxy {
 private:
