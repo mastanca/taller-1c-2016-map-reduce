@@ -7,16 +7,12 @@
 
 #include "server_Server.h"
 
-#include <sys/types.h>
 #include <iostream>
 #include <iterator>
-#include <utility>
-#include <sstream>
-#include <map>
 
 #include "../MapReduce/common_Reducer.h"
-#include "../MapReduce/common_Value.h"
 #include "../Others/common_InputParser.h"
+#include "server_AcceptorWorker.h"
 
 #define STOP_LISTENING "q"
 
@@ -38,6 +34,7 @@ Server::Server(const std::string& port) {
 }
 
 void Server::run() {
+	callAcceptorWorker();
 	std::string inputLine;
 	// TODO: Use multiple clients
 	clients.back()->receive(inputLine);
@@ -60,4 +57,22 @@ void Server::run() {
 		reducer.reduce((*it).first, (*it).second);
 	}
 
+}
+
+void Server::callAcceptorWorker(){
+	bool keepOnListening = true;
+	std::string userInput;
+
+	// Initiate AcceptorWorker and get him to work
+	AcceptorWorker acceptorWorker(&dispatcherSocket, &keepOnListening, &mappedData);
+	acceptorWorker.start();
+
+	while (keepOnListening && std::getline(std::cin, userInput)){
+		if (userInput == STOP_LISTENING){
+			keepOnListening = false;
+		}
+	}
+
+	// We are done listening so join the worker
+	acceptorWorker.join();
 }

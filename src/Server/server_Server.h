@@ -26,8 +26,12 @@ private:
 	Socket dispatcherSocket;
 	// Clients vector
 	std::vector<ClientProxy*> clients;
+	// Mapped data received
+	std::vector<std::string> mappedData;
+	// Calls acceptor worker to receive data
+	void callAcceptorWorker();
 public:
-	// Constructor, "" chooses any local ip
+	// Constructor
 	Server(const std::string& port);
 	// Destroyer
 	virtual ~Server();
