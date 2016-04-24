@@ -10,6 +10,9 @@
 
 #include <sys/types.h>
 #include <vector>
+#include <utility>
+#include <string>
+
 
 #include "common_Reducer.h"
 #include "common_Value.h"
@@ -26,6 +29,7 @@ private:
 	std::vector<Value>* valuesVector;
 	// Shared structure to store results
 	std::vector<std::pair<uint, std::string> >* reducedData;
+
 public:
 	// Constructor
 	ReducerWorker(uint day, std::vector<Value>* valuesVector,
@@ -36,6 +40,7 @@ public:
 	virtual ~ReducerWorker();
 	// Run the worker
 	void run();
+
 private:
 	// Mutex for threading
 	Mutex mutex;

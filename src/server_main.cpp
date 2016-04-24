@@ -7,7 +7,6 @@
 
 #include <stdlib.h>
 #include <syslog.h>
-#include <iostream>
 #include <string>
 
 #include "server_Server.h"
@@ -23,5 +22,4 @@ int main(int argc, char *argv[]){
 	Server server = Server(port);
 	server.run();
 	return EXIT_SUCCESS;
-
 }

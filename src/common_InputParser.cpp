@@ -8,6 +8,10 @@
 #include "common_InputParser.h"
 
 #include <sstream>
+#include <utility>
+#include <string>
+#include <vector>
+
 
 InputParser::~InputParser() {
 }

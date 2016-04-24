@@ -7,6 +7,7 @@
 
 #include "common_Mapper.h"
 #include <sstream>
+#include <string>
 
 #define SPACE " "
 

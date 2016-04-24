@@ -11,6 +11,10 @@
 #include <iterator>
 #include <map>
 #include <algorithm>
+#include <utility>
+#include <string>
+#include <vector>
+
 
 #include "common_InputParser.h"
 #include "server_AcceptorWorker.h"
@@ -100,7 +104,6 @@ void Server::printFinalResults() {
 			reducedData.begin(); it != reducedData.end(); ++it) {
 		std::cout << (*it).first << (*it).second << std::endl;
 	}
-
 }
 
 void Server::callAcceptorWorker() {

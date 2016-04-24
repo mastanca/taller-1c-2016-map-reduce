@@ -11,6 +11,10 @@
 #include <iostream>
 #include <iterator>
 #include <sstream>
+#include <utility>
+#include <string>
+#include <vector>
+
 
 #define ABSOLUTE_ZERO -273.15
 
@@ -35,7 +39,6 @@ std::pair<uint, std::string> Reducer::reduce(const uint& day,
 			// If its equal append the city
 			// TODO: Should be ordered alphabetically?
 			city << "/" + (*it).getCity();
-
 		}
 	}
 	std::stringstream finalStream;

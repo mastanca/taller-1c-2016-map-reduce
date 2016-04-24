@@ -8,6 +8,8 @@
 #include "server_AcceptorWorker.h"
 
 #include <iterator>
+#include <string>
+#include <vector>
 
 #include "common_Socket.h"
 #include "common_Lock.h"

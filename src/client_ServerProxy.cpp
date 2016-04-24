@@ -10,6 +10,7 @@
 #include <syslog.h>
 #include <cstring>
 #include <errno.h>
+#include <string>
 
 ServerProxy::~ServerProxy() {
 }

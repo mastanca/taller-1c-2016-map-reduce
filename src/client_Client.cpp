@@ -26,7 +26,6 @@ void Client::processInput(std::string& city, float& temperature, uint& day,
 }
 
 void Client::run() {
-
 	std::string inputLine, city;
 	float temperature;
 	uint day;
