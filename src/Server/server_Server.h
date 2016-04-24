@@ -9,13 +9,12 @@
 #define SRC_SERVER_SERVER_SERVER_H_
 
 #include <sys/types.h>
-#include <map>
 #include <string>
 #include <utility>
 #include <vector>
 
-#include "../MapReduce/common_Value.h"
 #include "../Sockets/common_Socket.h"
+#include "../Threading/common_Thread.h"
 #include "server_ClientProxy.h"
 
 #define MAX_QUEUE_SIZE 128
@@ -24,12 +23,18 @@ class Server {
 private:
 	// Socket for incoming connections
 	Socket dispatcherSocket;
+	// Reducers vector
+	std::vector<Thread*> reducers;
 	// Clients vector
 	std::vector<ClientProxy*> clients;
 	// Mapped data received
 	std::vector<std::string> mappedData;
+	// Reduced data worked by the reducers
+	std::vector<std::pair<uint, std::string> > reducedData;
 	// Calls acceptor worker to receive data
 	void callAcceptorWorker();
+	// Joins reducer workers and prints results
+	void printFinalResults();
 public:
 	// Constructor
 	Server(const std::string& port);

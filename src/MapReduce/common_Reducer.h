@@ -9,6 +9,8 @@
 #define SRC_MAPREDUCE_COMMON_REDUCER_H_
 
 #include <sys/types.h>
+#include <string>
+#include <utility>
 #include <vector>
 
 #include "common_Value.h"
@@ -21,7 +23,7 @@ public:
 	virtual ~Reducer();
 	// Reduces day, [(temperature1, city2), (temperature2, city2), ...] to
 	// the day/s with the highest temperature
-	void reduce(const uint& day, std::vector<Value>& valuesList);
+	std::pair<uint, std::string> reduce(const uint& day, std::vector<Value>& valuesList);
 };
 
 #endif /* SRC_MAPREDUCE_COMMON_REDUCER_H_ */

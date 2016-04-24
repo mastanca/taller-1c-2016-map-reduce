@@ -9,10 +9,12 @@
 
 #include <iostream>
 #include <iterator>
+#include <map>
+#include <algorithm>
 
-#include "../MapReduce/common_Reducer.h"
 #include "../Others/common_InputParser.h"
 #include "server_AcceptorWorker.h"
+#include "server_ReducerWorker.h"
 
 #define STOP_LISTENING "q"
 
@@ -22,6 +24,14 @@ Server::~Server() {
 			it != clients.end(); ++it) {
 		delete (*it);
 	}
+	clients.clear();
+
+	// Free reducers
+	for (std::vector<Thread*>::iterator it = reducers.begin();
+			it != reducers.end(); ++it) {
+		delete (*it);
+	}
+	reducers.clear();
 }
 
 Server::Server(const std::string& port) {
@@ -42,9 +52,6 @@ void Server::run() {
 		vectorOfTuplesVectors.push_back(tuplesVector);
 	}
 
-	// TODO: Use threading with reducers
-	Reducer reducer;
-
 	// We need to create a map of (day, [Values])
 	std::map<uint, std::vector<Value> > map;
 	for (std::vector< std::vector<std::pair<uint, Value> > >::iterator bigIt =
@@ -61,7 +68,29 @@ void Server::run() {
 	// Now that we have our map we iterate over it and reduce each key
 	for (std::map<uint, std::vector<Value> >::iterator it = map.begin();
 			it != map.end(); ++it) {
-		reducer.reduce((*it).first, (*it).second);
+		ReducerWorker* reducerWorker = new ReducerWorker((*it).first, &(*it).second, &reducedData);
+		reducers.push_back(reducerWorker);
+		reducerWorker->start();
+	}
+
+	//Print results here by calling another method
+	printFinalResults();
+}
+
+void Server::printFinalResults() {
+	// First join workers
+	for (std::vector<Thread*>::iterator it =
+			reducers.begin(); it != reducers.end(); ++it) {
+		(*it)->join();
+	}
+
+	// Sort by day
+	std::sort(reducedData.begin(), reducedData.end());
+
+	// Finally print
+	for (std::vector<std::pair<uint, std::string> >::iterator it =
+			reducedData.begin(); it != reducedData.end(); ++it) {
+		std::cout << (*it).first << (*it).second << std::endl;
 	}
 
 }

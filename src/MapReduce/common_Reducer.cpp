@@ -17,7 +17,7 @@
 Reducer::~Reducer() {
 }
 
-void Reducer::reduce(const uint& day, std::vector<Value>& valuesList) {
+std::pair<uint, std::string> Reducer::reduce(const uint& day, std::vector<Value>& valuesList) {
 	float temperature = ABSOLUTE_ZERO;
 	std::stringstream city; // Use stringstream here to support multiple cities
 
@@ -37,6 +37,8 @@ void Reducer::reduce(const uint& day, std::vector<Value>& valuesList) {
 
 		}
 	}
-
-	std::cout << day << ": " << city.str() << " (" << temperature << ")" << std::endl;
+	std::stringstream finalStream;
+	finalStream << ": " << city.str() << " (" << temperature << ")";
+	return std::make_pair(day, finalStream.str());
+//	std::cout << day << ": " << city.str() << " (" << temperature << ")" << std::endl;
 }
