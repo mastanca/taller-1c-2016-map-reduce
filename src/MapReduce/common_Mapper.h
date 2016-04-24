@@ -15,9 +15,11 @@
 class Mapper {
 public:
 	// Constructor
-	Mapper() {}
+	Mapper() {
+	}
 	// Maps (city, temperature, day) to (day, temperature, city)
-	void map(const std::string& city, const float& temperature, const uint& day, std::stringstream& outputStream);
+	void map(const std::string& city, const float& temperature, const uint& day,
+			std::stringstream& outputStream);
 	// Destroyer
 	virtual ~Mapper();
 };

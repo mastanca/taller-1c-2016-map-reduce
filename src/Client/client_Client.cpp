@@ -18,8 +18,8 @@
 Client::~Client() {
 }
 
-void Client::processInput(std::string& city, float& temperature,
-		uint& day, std::stringstream& inputStream) {
+void Client::processInput(std::string& city, float& temperature, uint& day,
+		std::stringstream& inputStream) {
 	inputStream >> city;
 	inputStream >> temperature;
 	inputStream >> day;

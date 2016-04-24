@@ -24,7 +24,7 @@ public:
 	// Simple constructor
 	Socket();
 	// Initiates with given parameters
-	Socket(char* ip, const char*  port);
+	Socket(char* ip, const char* port);
 	// Free's socket resources
 	virtual ~Socket();
 	// Binds the socket to a connection

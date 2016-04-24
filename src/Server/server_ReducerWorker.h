@@ -28,7 +28,8 @@ private:
 	std::vector<std::pair<uint, std::string> >* reducedData;
 public:
 	// Constructor
-	ReducerWorker(uint day, std::vector<Value>* valuesVector, std::vector<std::pair<uint, std::string> >* reducedData) :
+	ReducerWorker(uint day, std::vector<Value>* valuesVector,
+			std::vector<std::pair<uint, std::string> >* reducedData) :
 			day(day), valuesVector(valuesVector), reducedData(reducedData) {
 	}
 	// Destroyer

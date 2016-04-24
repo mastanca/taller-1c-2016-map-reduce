@@ -27,7 +27,7 @@ ClientProxy::~ClientProxy() {
 }
 
 void ClientProxy::acceptNewConnection(const Socket& dispatcherSocket) {
-	if (dispatcherSocket.accept(&socket) == 0){
+	if (dispatcherSocket.accept(&socket) == 0) {
 		connected = true;
 	}
 }
@@ -37,17 +37,20 @@ void ClientProxy::receive(std::string& incomingData) {
 	// Done workaround of size + 1 to avoid valgrind error
 	char buffer[MAX_BUFFER_SIZE + 1];
 	buffer[MAX_BUFFER_SIZE] = 0;
-	while (keepReceiving){
+	while (keepReceiving) {
 		memset(&buffer[0], 0, sizeof(buffer));
-		 if (socket.receive(&buffer[0], MAX_BUFFER_SIZE) == -1){
-			 keepReceiving = false;
-			 syslog(LOG_ERR, "There was an error receiving from socket");
-		 } else {
-			 incomingData += buffer;
-			 // If we find an "End\n" client was done sending
-			 if (incomingData.find(STOP_RECEIVING_CONDITION) != std::string::npos)
-				 keepReceiving = false;
-		 }
+		if (socket.receive(&buffer[0], MAX_BUFFER_SIZE) == -1) {
+			keepReceiving = false;
+			syslog(LOG_ERR, "There was an error receiving from socket");
+		} else {
+			incomingData += buffer;
+			// If we find an "End\n" client was done sending
+			if (incomingData.find(STOP_RECEIVING_CONDITION)
+					!= std::string::npos)
+				keepReceiving = false;
+		}
 	}
-	incomingData.erase(incomingData.length() - sizeof(STOP_RECEIVING_CONDITION) + 1, incomingData.length());
+	incomingData.erase(
+			incomingData.length() - sizeof(STOP_RECEIVING_CONDITION) + 1,
+			incomingData.length());
 }

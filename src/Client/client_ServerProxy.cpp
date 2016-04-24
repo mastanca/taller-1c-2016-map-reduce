@@ -15,7 +15,8 @@ ServerProxy::~ServerProxy() {
 }
 
 void ServerProxy::send(const std::string& data) {
-	if (this->socket.send((char*)data.c_str(), data.length()) == -1){
-		syslog(LOG_ERR, "There was an error while sending data %s", strerror(errno));
+	if (this->socket.send((char*) data.c_str(), data.length()) == -1) {
+		syslog(LOG_ERR, "There was an error while sending data %s",
+				strerror(errno));
 	}
 }

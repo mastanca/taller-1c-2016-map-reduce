@@ -30,7 +30,8 @@ private:
 	std::vector<std::string>* mappedData;
 public:
 	// Constructor
-	AcceptorWorker(Socket* dispatcherSocket, bool* keepOnListening, std::vector<std::string>* mappedData);
+	AcceptorWorker(Socket* dispatcherSocket, bool* keepOnListening,
+			std::vector<std::string>* mappedData);
 	// Destroyer
 	virtual ~AcceptorWorker();
 	// Run the worker

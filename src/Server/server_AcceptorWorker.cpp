@@ -17,33 +17,34 @@
 
 AcceptorWorker::~AcceptorWorker() {
 	// Free clients
-	for (std::vector<ClientProxy*>::iterator it =
-			clients.begin(); it != clients.end(); ++it) {
+	for (std::vector<ClientProxy*>::iterator it = clients.begin();
+			it != clients.end(); ++it) {
 		delete (*it);
 	}
 	clients.clear();
 
 	// Free workers
-	for (std::vector<Thread*>::iterator it =
-			launchedThreads.begin(); it != launchedThreads.end(); ++it) {
+	for (std::vector<Thread*>::iterator it = launchedThreads.begin();
+			it != launchedThreads.end(); ++it) {
 		delete (*it);
 	}
 	launchedThreads.clear();
 }
 
 void AcceptorWorker::run() {
-	while(*keepOnListening) {
+	while (*keepOnListening) {
 		// If there are connections available...
 		int availableConnections = dispatcherSocket->select();
-		if (availableConnections > 0){
+		if (availableConnections > 0) {
 			for (int i = 0; i < availableConnections; ++i) {
 				ClientProxy* client = new ClientProxy;
 				clients.push_back(client);
 				client->acceptNewConnection(*dispatcherSocket);
-				if (client->isConnected()){
+				if (client->isConnected()) {
 					// Spawn a receiver worker
 					// It will call our client proxy's receive method
-					ReceiverWorker* receiverWorker = new ReceiverWorker(client, mappedData);
+					ReceiverWorker* receiverWorker = new ReceiverWorker(client,
+							mappedData);
 					launchedThreads.push_back(receiverWorker);
 					receiverWorker->start();
 				}
@@ -52,8 +53,8 @@ void AcceptorWorker::run() {
 	}
 
 	// We are done listening, so join my children
-	for (std::vector<Thread*>::iterator it =
-			launchedThreads.begin(); it != launchedThreads.end(); ++it) {
+	for (std::vector<Thread*>::iterator it = launchedThreads.begin();
+			it != launchedThreads.end(); ++it) {
 		(*it)->join();
 	}
 }

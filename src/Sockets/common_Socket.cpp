@@ -19,23 +19,21 @@
 #include <syslog.h>
 #include <iostream>
 
-
 Socket::Socket(char* ip, const char* port) {
 	int s = 0;
 	struct addrinfo hints;
 	int flag = 0;
 
-	if (ip == NULL ){
+	if (ip == NULL) {
 		flag = AI_PASSIVE; // Flag for server
 	}
 	// Port is received as a parameter from user, no need to convert to net
 	const char* serviceName = port;
 
-
 	memset(&hints, 0, sizeof(struct addrinfo));
-	hints.ai_family = AF_INET;       /* IPv4 (or AF_INET6 for IPv6)     */
+	hints.ai_family = AF_INET; /* IPv4 (or AF_INET6 for IPv6)     */
 	hints.ai_socktype = SOCK_STREAM; /* TCP  (or SOCK_DGRAM for UDP)    */
-	hints.ai_flags = flag;     	/* 0 (or AI_PASSIVE for server)           */
+	hints.ai_flags = flag; /* 0 (or AI_PASSIVE for server)           */
 
 	s = getaddrinfo(ip, serviceName, &hints, &(this->result));
 
@@ -47,7 +45,7 @@ Socket::Socket(char* ip, const char* port) {
 	this->fd = socket(this->result->ai_family, this->result->ai_socktype,
 			this->result->ai_protocol);
 
-	if (this->fd == -1){
+	if (this->fd == -1) {
 		syslog(LOG_ERR, "There was an error when creating socket, "
 				"socket fd was -1");
 	}
@@ -61,16 +59,18 @@ Socket::~Socket() {
 
 int Socket::bind() {
 	// WEIRD bug here, if used the socket fd it fails
-	int anotherfd = socket(this->result->ai_family, this->result->ai_socktype, this->result->ai_protocol);
+	int anotherfd = socket(this->result->ai_family, this->result->ai_socktype,
+			this->result->ai_protocol);
 	this->fd = anotherfd;
 
 	// TODO: ERASE THIS, ONLY FOR TESTING
 	// // Avoid time wait
-	 int option = 1;
-	 setsockopt(this->fd,SOL_SOCKET,(SO_REUSEPORT | SO_REUSEADDR),
-	 		(char*)&option,sizeof(option));
+	int option = 1;
+	setsockopt(this->fd, SOL_SOCKET, (SO_REUSEPORT | SO_REUSEADDR),
+			(char*) &option, sizeof(option));
 
-	if (::bind(this->fd, this->result->ai_addr, this->result->ai_addrlen) == -1){
+	if (::bind(this->fd, this->result->ai_addr, this->result->ai_addrlen)
+			== -1) {
 		close(this->fd);
 		syslog(LOG_ERR, "There was an error when binding the socket, "
 				"bind returned -1: %s", strerror(errno));
@@ -82,7 +82,7 @@ int Socket::bind() {
 }
 
 int Socket::listen(int maxQueueSize) {
-	if (::listen(this->fd, maxQueueSize) == -1){
+	if (::listen(this->fd, maxQueueSize) == -1) {
 		syslog(LOG_ERR, "There was an error when listening, "
 				"listen returned -1");
 		return EXIT_FAILURE;
@@ -92,7 +92,7 @@ int Socket::listen(int maxQueueSize) {
 
 int Socket::accept(Socket* client) const {
 	client->fd = ::accept(this->fd, NULL, NULL);
-	if (client->fd == -1){
+	if (client->fd == -1) {
 		syslog(LOG_ERR, "There was an error when accepting a new client, "
 				"accept returned -1");
 		return EXIT_FAILURE;
@@ -107,14 +107,15 @@ int Socket::connect() {
 	for (ptr = this->result; ptr != NULL && are_we_connected == false;
 			ptr = ptr->ai_next) {
 		s = ::connect(this->fd, ptr->ai_addr, ptr->ai_addrlen);
-		if (s == -1){
+		if (s == -1) {
 			close(this->fd);
-			this->fd = socket(ptr->ai_family, ptr->ai_socktype, ptr->ai_protocol);
+			this->fd = socket(ptr->ai_family, ptr->ai_socktype,
+					ptr->ai_protocol);
 		}
 		are_we_connected = (s != -1);
 	}
 	freeaddrinfo(this->result);
-	if (are_we_connected == false){
+	if (are_we_connected == false) {
 		syslog(LOG_ERR, "There was an error when connecting");
 		return EXIT_FAILURE;
 	}
@@ -128,16 +129,18 @@ int Socket::receive(char* buffer, int size) {
 	bool closed_socket = false;
 
 	while (received < size && is_a_valid_socket && !closed_socket) {
-		response = recv(this->fd, &buffer[received], size-received, MSG_NOSIGNAL);
+		response = recv(this->fd, &buffer[received], size - received,
+				MSG_NOSIGNAL);
 
-		if (response == 0){
+		if (response == 0) {
 			// Socket was closed
 			closed_socket = true;
 			syslog(LOG_INFO, "Socket was closed");
-		}else if (response < 0) {
+		} else if (response < 0) {
 			// There was an error
 			is_a_valid_socket = false;
-			syslog(LOG_WARNING, "There was an error when receiving data from socket ");
+			syslog(LOG_WARNING,
+					"There was an error when receiving data from socket ");
 		} else {
 			received += response;
 		}
@@ -156,22 +159,24 @@ Socket::Socket() {
 }
 
 int Socket::send(char* buffer, int size) {
-	int sent =0;
+	int sent = 0;
 	int response = 0;
 	bool is_a_valid_socket = true;
 
 	while (sent < size && is_a_valid_socket) {
-		response = ::send(this->fd, &buffer[sent], size-sent, MSG_NOSIGNAL);
+		response = ::send(this->fd, &buffer[sent], size - sent, MSG_NOSIGNAL);
 
-		if (response == 0){
+		if (response == 0) {
 			// Socket was closed
 			is_a_valid_socket = false;
-			syslog(LOG_WARNING, "There was an error when sending data from socket, "
-					"socket was closed");
-		}else if (response < 0) {
+			syslog(LOG_WARNING,
+					"There was an error when sending data from socket, "
+							"socket was closed");
+		} else if (response < 0) {
 			// There was an error
 			is_a_valid_socket = false;
-			syslog(LOG_ERR, "There was an error when receiving data from socket ");
+			syslog(LOG_ERR,
+					"There was an error when receiving data from socket ");
 		} else {
 			sent += response;
 		}

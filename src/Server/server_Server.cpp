@@ -47,17 +47,18 @@ void Server::run() {
 	// We will receive all the data in inputline and then parse it all
 	InputParser parser;
 	// Big structure here, we need a vector to hold the vectors of tuples
-	std::vector< std::vector<std::pair<uint, Value> > > vectorOfTuplesVectors;
-	for (std::vector<std::string>::iterator it =
-			mappedData.begin(); it != mappedData.end(); ++it) {
+	std::vector<std::vector<std::pair<uint, Value> > > vectorOfTuplesVectors;
+	for (std::vector<std::string>::iterator it = mappedData.begin();
+			it != mappedData.end(); ++it) {
 		std::vector<std::pair<uint, Value> > tuplesVector = parser.parse(*it);
 		vectorOfTuplesVectors.push_back(tuplesVector);
 	}
 
 	// We need to create a map of (day, [Values])
 	std::map<uint, std::vector<Value> > map;
-	for (std::vector< std::vector<std::pair<uint, Value> > >::iterator bigIt =
-			vectorOfTuplesVectors.begin(); bigIt != vectorOfTuplesVectors.end(); ++bigIt) {
+	for (std::vector<std::vector<std::pair<uint, Value> > >::iterator bigIt =
+			vectorOfTuplesVectors.begin(); bigIt != vectorOfTuplesVectors.end();
+			++bigIt) {
 		for (std::vector<std::pair<uint, Value> >::iterator it =
 				(*bigIt).begin(); it != (*bigIt).end(); ++it) {
 			Value value = (*it).second;
@@ -72,7 +73,8 @@ void Server::run() {
 	for (std::map<uint, std::vector<Value> >::iterator it = map.begin();
 			it != map.end(); ++it) {
 		// Each worker accesses only his vector, should be no race condition
-		ReducerWorker* reducerWorker = new ReducerWorker((*it).first, &(*it).second, &reducedData);
+		ReducerWorker* reducerWorker = new ReducerWorker((*it).first,
+				&(*it).second, &reducedData);
 		reducers.push_back(reducerWorker);
 		reducerWorker->start();
 	}
@@ -83,8 +85,8 @@ void Server::run() {
 
 void Server::printFinalResults() {
 	// First join workers
-	for (std::vector<Thread*>::iterator it =
-			reducers.begin(); it != reducers.end(); ++it) {
+	for (std::vector<Thread*>::iterator it = reducers.begin();
+			it != reducers.end(); ++it) {
 		(*it)->join();
 	}
 
@@ -101,16 +103,17 @@ void Server::printFinalResults() {
 
 }
 
-void Server::callAcceptorWorker(){
+void Server::callAcceptorWorker() {
 	bool keepOnListening = true;
 	std::string userInput;
 
 	// Initiate AcceptorWorker and get him to work
-	AcceptorWorker acceptorWorker(&dispatcherSocket, &keepOnListening, &mappedData);
+	AcceptorWorker acceptorWorker(&dispatcherSocket, &keepOnListening,
+			&mappedData);
 	acceptorWorker.start();
 
-	while (keepOnListening && std::getline(std::cin, userInput)){
-		if (userInput == STOP_LISTENING){
+	while (keepOnListening && std::getline(std::cin, userInput)) {
+		if (userInput == STOP_LISTENING) {
 			keepOnListening = false;
 		}
 	}

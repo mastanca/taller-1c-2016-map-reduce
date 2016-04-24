@@ -17,20 +17,21 @@
 Reducer::~Reducer() {
 }
 
-std::pair<uint, std::string> Reducer::reduce(const uint& day, std::vector<Value>& valuesList) {
+std::pair<uint, std::string> Reducer::reduce(const uint& day,
+		std::vector<Value>& valuesList) {
 	float temperature = ABSOLUTE_ZERO;
 	std::stringstream city; // Use stringstream here to support multiple cities
 
 	for (std::vector<Value>::iterator it = valuesList.begin();
 			it != valuesList.end(); ++it) {
 		// If value's temperature is greater than temperature then save it
-		if ((*it).getTemperature() > temperature){
+		if ((*it).getTemperature() > temperature) {
 			temperature = (*it).getTemperature();
 			// Build city stringstream from scratch
 			city.str(std::string());
 			city.clear();
 			city << (*it).getCity();
-		} else if ((*it).getTemperature() == temperature){
+		} else if ((*it).getTemperature() == temperature) {
 			// If its equal append the city
 			// TODO: Should be ordered alphabetically?
 			city << "/" + (*it).getCity();
@@ -40,5 +41,4 @@ std::pair<uint, std::string> Reducer::reduce(const uint& day, std::vector<Value>
 	std::stringstream finalStream;
 	finalStream << ": " << city.str() << " (" << temperature << ")";
 	return std::make_pair(day, finalStream.str());
-//	std::cout << day << ": " << city.str() << " (" << temperature << ")" << std::endl;
 }
