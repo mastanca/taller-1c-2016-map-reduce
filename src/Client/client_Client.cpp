@@ -33,6 +33,7 @@ void Client::run() {
 	std::stringstream inputStream;
 	while (std::getline(std::cin, inputLine)) {
 		// Get line from stdin and separate to variables
+		inputStream.clear();
 		inputStream.str(inputLine);
 		processInput(city, temperature, day, inputStream);
 
@@ -42,6 +43,7 @@ void Client::run() {
 		mapper.map(city, temperature, day, mappedStream);
 
 		serverProxy.send(mappedStream.str() + "\n");
+		std::cout << "Sent " << mappedStream.str() << std::endl;
 	}
 	serverProxy.send(STOP_SENDING_SIGNAL);
 }
