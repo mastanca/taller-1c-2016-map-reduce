@@ -27,20 +27,14 @@ Server::~Server() {
 Server::Server(const std::string& port) {
 	dispatcherSocket = Socket(NULL, port.c_str());
 	dispatcherSocket.bind();
-	// Move this to a thread eventually
-//	dispatcherSocket.listen(MAX_QUEUE_SIZE);
-//	clients.push_back(new ClientProxy());
-//	clients.back()->acceptNewConnection(dispatcherSocket);
 }
 
 void Server::run() {
 	callAcceptorWorker();
-//	std::string inputLine;
-//	// TODO: Use multiple clients
-//	clients.back()->receive(inputLine);
+
 	// We will receive all the data in inputline and then parse it all
 	InputParser parser;
-	// Big structure here
+	// Big structure here, we need a vector to hold the vectors of tuples
 	std::vector< std::vector<std::pair<uint, Value> > > vectorOfTuplesVectors;
 	for (std::vector<std::string>::iterator it =
 			mappedData.begin(); it != mappedData.end(); ++it) {
@@ -48,6 +42,7 @@ void Server::run() {
 		vectorOfTuplesVectors.push_back(tuplesVector);
 	}
 
+	// TODO: Use threading with reducers
 	Reducer reducer;
 
 	// We need to create a map of (day, [Values])
