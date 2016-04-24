@@ -13,7 +13,6 @@
 
 
 //int main(int argc, char *argv[]){
-//	std::cout<< "Client!" << std::endl;
 //	if (argc != 3){
 //		syslog(LOG_ERR, "Client: Invalid number of arguments");
 //		return EXIT_FAILURE;

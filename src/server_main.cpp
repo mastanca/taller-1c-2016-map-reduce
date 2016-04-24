@@ -14,7 +14,6 @@
 
 
 int main(int argc, char *argv[]){
-	std::cout<< "Server!" << std::endl;
 	if (argc != 2){
 		syslog(LOG_ERR, "Server: Invalid number of arguments");
 		return EXIT_FAILURE;
