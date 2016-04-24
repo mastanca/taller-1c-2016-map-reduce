@@ -7,7 +7,7 @@
 
 #include <stdlib.h>
 #include <syslog.h>
-#include <iostream>
+#include <string>
 
 #include "Client/client_Client.h"
 
@@ -24,5 +24,4 @@
 //	client.run();
 //
 //	return EXIT_SUCCESS;
-//
 //}

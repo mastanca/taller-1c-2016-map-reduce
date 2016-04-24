@@ -17,7 +17,7 @@ private:
 	std::string city;
 public:
 	// Default constrcutor, needed for pairs
-	Value();
+	Value() : temperature(-200), city("") {}
 	// Constructor
 	Value(float temperature, std::string city) :
 			temperature(temperature), city(city) {

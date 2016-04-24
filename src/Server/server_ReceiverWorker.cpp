@@ -8,6 +8,7 @@
 #include "server_ReceiverWorker.h"
 
 #include "../Threading/common_Lock.h"
+#include <string>
 
 ReceiverWorker::~ReceiverWorker() {
 }

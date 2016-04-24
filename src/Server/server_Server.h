@@ -37,7 +37,7 @@ private:
 	void printFinalResults();
 public:
 	// Constructor
-	Server(const std::string& port);
+	explicit Server(const std::string& port);
 	// Destroyer
 	virtual ~Server();
 	// This method encapsulates the server work
