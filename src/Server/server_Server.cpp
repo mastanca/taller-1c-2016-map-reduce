@@ -21,6 +21,7 @@
 #include "server_ReducerWorker.h"
 
 #define STOP_LISTENING "q"
+#define MAX_QTY_REDUCER_THREADS 4
 
 Server::~Server() {
 	// Free client proxys
@@ -29,13 +30,6 @@ Server::~Server() {
 		delete (*it);
 	}
 	clients.clear();
-
-	// Free reducers
-	for (std::vector<Thread*>::iterator it = reducers.begin();
-			it != reducers.end(); ++it) {
-		delete (*it);
-	}
-	reducers.clear();
 }
 
 Server::Server(const std::string& port) {
@@ -73,6 +67,7 @@ void Server::run() {
 	//////////////////////////////////////////////////////////////////////////
 
 	// Threading area 2
+	uint spawnedThreadsCount = 1; // We at least spawn 1
 	// Now that we have our map we iterate over it and reduce each key
 	for (std::map<uint, std::vector<Value> >::iterator it = map.begin();
 			it != map.end(); ++it) {
@@ -81,6 +76,19 @@ void Server::run() {
 				&(*it).second, &reducedData);
 		reducers.push_back(reducerWorker);
 		reducerWorker->start();
+
+		// Control spawned threads
+		if (spawnedThreadsCount == MAX_QTY_REDUCER_THREADS){
+			releaseWorkers();
+			spawnedThreadsCount = 1; // Reset count
+		} else {
+			++spawnedThreadsCount;
+		}
+	}
+
+	// Join any left over threads if any
+	if (spawnedThreadsCount != 0){
+		releaseWorkers();
 	}
 
 	//Print results here by calling another method
@@ -88,12 +96,6 @@ void Server::run() {
 }
 
 void Server::printFinalResults() {
-	// First join workers
-	for (std::vector<Thread*>::iterator it = reducers.begin();
-			it != reducers.end(); ++it) {
-		(*it)->join();
-	}
-
 	// Sort by day
 	// According to docs, pair overrides "<" to compare first by key then by
 	// value
@@ -123,4 +125,20 @@ void Server::callAcceptorWorker() {
 
 	// We are done listening so join the worker
 	acceptorWorker.join();
+}
+
+
+void Server::releaseWorkers() {
+	// join workers
+	for (std::vector<Thread*>::iterator it = reducers.begin();
+			it != reducers.end(); ++it) {
+		(*it)->join();
+	}
+
+	// Free reducers
+	for (std::vector<Thread*>::iterator it = reducers.begin();
+			it != reducers.end(); ++it) {
+		delete (*it);
+	}
+	reducers.clear();
 }
