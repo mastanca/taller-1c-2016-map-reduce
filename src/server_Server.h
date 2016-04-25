@@ -37,6 +37,7 @@ private:
 	void printFinalResults();
 	// Joins and frees workers
 	void releaseWorkers();
+
 public:
 	// Constructor
 	explicit Server(const std::string& port);
