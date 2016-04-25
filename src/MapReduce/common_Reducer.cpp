@@ -16,7 +16,6 @@
 #include <vector>
 #include <algorithm>
 
-
 #define ABSOLUTE_ZERO -273.15
 #define CITIES_SEPARATOR "/"
 
@@ -42,17 +41,19 @@ std::pair<uint, std::string> Reducer::reduce(const uint& day,
 		}
 	}
 	std::stringstream finalStream;
-	finalStream << ": " << getSortedCitiesVector(&citiesVector) << " (" << temperature << ")";
+	finalStream << ": " << getSortedCitiesVector(&citiesVector) << " ("
+			<< temperature << ")";
 	return std::make_pair(day, finalStream.str());
 }
 
-std::string Reducer::getSortedCitiesVector(std::vector<std::string>* citiesVector){
+std::string Reducer::getSortedCitiesVector(
+		std::vector<std::string>* citiesVector) {
 	std::string stringToReturn;
 	std::sort(citiesVector->begin(), citiesVector->end());
 	for (std::vector<std::string>::iterator it = citiesVector->begin();
 			it != citiesVector->end(); ++it) {
 		stringToReturn.append(*it);
-		if (it != citiesVector->end() - 1){
+		if (it != citiesVector->end() - 1) {
 			stringToReturn.append(CITIES_SEPARATOR);
 		}
 	}
