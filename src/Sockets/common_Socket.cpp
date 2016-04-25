@@ -194,11 +194,13 @@ int Socket::select() {
 
 	struct timeval tv;
 	tv.tv_sec = 0;
-	tv.tv_usec = 10000 * 100 * 10; //1msec * 100 = 1 sec * 10 = 10 sec
+	tv.tv_usec = 10000 * 50; //10msec * 50 = 500ms
+	// Wait half second to please SERCOM =)
 
 	if ((socketsReady = ::select(FD_SETSIZE, &fdsetSocket, NULL, NULL, &tv))
 			< 0)
-		std::cout << "Error: " << strerror(errno) << std::endl;
+		syslog(LOG_ERR,
+				"There was an error in select: %s", strerror(errno));
 
 	return socketsReady;
 }
