@@ -33,8 +33,10 @@ private:
 	std::vector<std::pair<uint, std::string> > reducedData;
 	// Calls acceptor worker to receive data
 	void callAcceptorWorker();
-	// Joins reducer workers and prints results
+	// Prints results
 	void printFinalResults();
+	// Joins and frees workers
+	void releaseWorkers();
 public:
 	// Constructor
 	explicit Server(const std::string& port);

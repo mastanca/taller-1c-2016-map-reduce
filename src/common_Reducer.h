@@ -16,6 +16,9 @@
 #include "common_Value.h"
 
 class Reducer {
+private:
+	// Sorts internal cities vector
+	std::string getSortedCitiesVector(std::vector<std::string>* citiesVector);
 public:
 	// Constructor
 	Reducer() {
