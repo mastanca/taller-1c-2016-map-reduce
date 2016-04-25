@@ -1,0 +1,269 @@
+#LyX 2.1 created this file. For more info see http://www.lyx.org/
+\lyxformat 474
+\begin_document
+\begin_header
+\textclass article
+\use_default_options true
+\maintain_unincluded_children false
+\language spanish-mexico
+\language_package default
+\inputencoding auto
+\fontencoding global
+\font_roman default
+\font_sans default
+\font_typewriter default
+\font_math auto
+\font_default_family default
+\use_non_tex_fonts false
+\font_sc false
+\font_osf false
+\font_sf_scale 100
+\font_tt_scale 100
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\float_placement H
+\paperfontsize default
+\spacing single
+\use_hyperref false
+\papersize a4paper
+\use_geometry false
+\use_package amsmath 1
+\use_package amssymb 1
+\use_package cancel 1
+\use_package esint 1
+\use_package mathdots 1
+\use_package mathtools 1
+\use_package mhchem 1
+\use_package stackrel 1
+\use_package stmaryrd 1
+\use_package undertilde 1
+\cite_engine basic
+\cite_engine_type default
+\biblio_style plain
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\justification true
+\use_refstyle 1
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\paragraph_indentation default
+\quotes_language french
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout Title
+Informe de Trabajo Práctico Nº 3
+\end_layout
+
+\begin_layout Standard
+\align center
+75.42 Taller de Programación I 
+\end_layout
+
+\begin_layout Standard
+\align center
+Cátedra Veiga
+\end_layout
+
+\begin_layout Standard
+\align center
+Facultad de Ingeniera - UBA
+\end_layout
+
+\begin_layout Standard
+\align center
+Autor: Martín Stancanelli
+\end_layout
+
+\begin_layout Standard
+\align center
+Padrón: 95188
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage pagebreak
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section*
+Objetivo
+\end_layout
+
+\begin_layout Standard
+El objetivo de este trabajo practico fue la implementación de el algoritmo
+ MapReduce en C++, utilizando la librería pthread para el multithreading
+ y aplciando lo aprnedido en trabajos anteriores sobre sockets.
+\end_layout
+
+\begin_layout Section*
+Configuración del entorno
+\end_layout
+
+\begin_layout Standard
+El entorno de trabajo elegido para la realización del trabajo practico fue
+ una PC con SO Linux Mint 17.3 y compilador gcc 4.8 configurado para utilizar
+ el estándar de C++98 y la librería pthread.
+ 
+\end_layout
+
+\begin_layout Section*
+Explicación de enunciado
+\end_layout
+
+\begin_layout Standard
+El fin del trabajo es realizar un programa que permita recibir los datos
+ de las temperaturas de muchas ciudades para todos los dias del mes de marzo
+ y, a traves de la implementacion del algoritmo MapReduce poder definir
+ que ciudad tuvo la temperatura mas alta en cada dia.
+ 
+\begin_inset Newline newline
+\end_inset
+
+La idea es que los mappers se ejecuten en cada cliente y luego los datos
+ mapeados se envien al servidor, quien por cada dia de marzo ejecutara un
+ reducer que encontrara la ciudad que tuvo mayor temperatura.
+ 
+\end_layout
+
+\begin_layout Section*
+Desarrollo
+\end_layout
+
+\begin_layout Standard
+Para comenzar con el trabajo se portaron las librerias de sockets y threading
+ usadas en trabajos previos a C++.
+ Luego nos enfocamos en la realizacion del algoritmo map reduce.
+\end_layout
+
+\begin_layout Standard
+Como salida de los mappers se tomo al dia como clave, ya que es el valor
+ por el que los reducers van a separar los datos.
+ Por lo tanto los mappers van a recivir los datos de la forma BuenosAires
+ 25 31 y van a retornar 31 BuenosAires 25, donde el 31 en este ejemplo es
+ el dia de marzo.
+ Una vez que se tuvo a los mappers funcionando correctamente pasamos a los
+ reducers.
+\end_layout
+
+\begin_layout Standard
+Los reducers entonces reciben un par clave, valor del tipo dia, [ciudad,
+ temperatura], siendo esta ultima una clave compuesta.
+ Entonces el algoritmo del reducer, que recibe solo las claves de un determinado
+ dia, se va a basar en recorrer la lista de claves y tomar la ciudad que
+ tenga la temperatura mas alta.
+ En caso de empate se guardan todas las ciudades con esa temperatura.
+\end_layout
+
+\begin_layout Standard
+Una vez que el algoritmo MapReduce se comportaba correctamente se integro
+ este con el modelo de cliente-servidor y la parte de sockets y threads
+ que requeria el trabajo.
+\end_layout
+
+\begin_layout Standard
+Se incluye un diagrama 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "fig:Diagrama-de-estados"
+
+\end_inset
+
+ explicando la estructura del algoritmo MapReduce que finalmente se empleo.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+centering
+\end_layout
+
+\end_inset
+
+
+\begin_inset Graphics
+	filename MapReduce.png
+	width 80page%
+	height 70pheight%
+	groupId common_image
+
+\end_inset
+
+
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Diagrama de la estructura del algoritmo MapReduce empleado
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Diagrama-de-estados"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section*
+Conclusión
+\end_layout
+
+\begin_layout Standard
+Si bien el algoritmo MapReduce ya era conocido, la implementacion desde
+ cero en C++ permitio que se incorporaran mejor los conocimientos de threading
+ que se empezaron a ver en el trabajo practico anterior.
+\end_layout
+
+\begin_layout Standard
+El tratar de resolver los conflictos que se presentan por culpa de la concurrenc
+ia, por ejemplo las race conditions, obliga a que se entiendan mejor los
+ conceptos y se aprovechen mucho mas.
+ 
+\end_layout
+
+\end_body
+\end_document
