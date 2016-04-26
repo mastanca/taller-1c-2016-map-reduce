@@ -112,8 +112,12 @@ Objetivo
 
 \begin_layout Standard
 El objetivo de este trabajo practico fue la implementación de el algoritmo
- MapReduce en C++, utilizando la librería pthread para el multithreading
- y aplciando lo aprnedido en trabajos anteriores sobre sockets.
+ 
+\emph on
+MapReduce
+\emph default
+ en C++, utilizando la librería pthread para el multithreading y aplicando
+ lo aprendido en trabajos anteriores sobre sockets.
 \end_layout
 
 \begin_layout Section*
@@ -133,15 +137,15 @@ Explicación de enunciado
 
 \begin_layout Standard
 El fin del trabajo es realizar un programa que permita recibir los datos
- de las temperaturas de muchas ciudades para todos los dias del mes de marzo
- y, a traves de la implementacion del algoritmo MapReduce poder definir
- que ciudad tuvo la temperatura mas alta en cada dia.
+ de las temperaturas de muchas ciudades para todos los días del mes de marzo
+ y, a través de la implementación del algoritmo MapReduce poder definir
+ que ciudad tuvo la temperatura mas alta en cada día.
  
 \begin_inset Newline newline
 \end_inset
 
 La idea es que los mappers se ejecuten en cada cliente y luego los datos
- mapeados se envien al servidor, quien por cada dia de marzo ejecutara un
+ mapeados se envíen al servidor, quien por cada día de marzo ejecutara un
  reducer que encontrara la ciudad que tuvo mayor temperatura.
  
 \end_layout
@@ -151,26 +155,26 @@ Desarrollo
 \end_layout
 
 \begin_layout Standard
-Para comenzar con el trabajo se portaron las librerias de sockets y threading
+Para comenzar con el trabajo se portaron las librerías de sockets y threading
  usadas en trabajos previos a C++.
- Luego nos enfocamos en la realizacion del algoritmo map reduce.
+ Luego nos enfocamos en la realización del algoritmo MapReduce.
 \end_layout
 
 \begin_layout Standard
-Como salida de los mappers se tomo al dia como clave, ya que es el valor
+Como salida de los mappers se tomo al día como clave, ya que es el valor
  por el que los reducers van a separar los datos.
- Por lo tanto los mappers van a recivir los datos de la forma BuenosAires
+ Por lo tanto los mappers van a recibir los datos de la forma BuenosAires
  25 31 y van a retornar 31 BuenosAires 25, donde el 31 en este ejemplo es
- el dia de marzo.
+ el día de marzo.
  Una vez que se tuvo a los mappers funcionando correctamente pasamos a los
  reducers.
 \end_layout
 
 \begin_layout Standard
-Los reducers entonces reciben un par clave, valor del tipo dia, [ciudad,
+Los reducers entonces reciben un par clave, valor del tipo día, [ciudad,
  temperatura], siendo esta ultima una clave compuesta.
  Entonces el algoritmo del reducer, que recibe solo las claves de un determinado
- dia, se va a basar en recorrer la lista de claves y tomar la ciudad que
+ día, se va a basar en recorrer la lista de claves y tomar la ciudad que
  tenga la temperatura mas alta.
  En caso de empate se guardan todas las ciudades con esa temperatura.
 \end_layout
@@ -178,7 +182,7 @@ Los reducers entonces reciben un par clave, valor del tipo dia, [ciudad,
 \begin_layout Standard
 Una vez que el algoritmo MapReduce se comportaba correctamente se integro
  este con el modelo de cliente-servidor y la parte de sockets y threads
- que requeria el trabajo.
+ que requería el trabajo.
 \end_layout
 
 \begin_layout Standard
@@ -189,7 +193,9 @@ reference "fig:Diagrama-de-estados"
 
 \end_inset
 
- explicando la estructura del algoritmo MapReduce que finalmente se empleo.
+ explicando la estructura del algoritmo MapReduce que finalmente se empleó,
+ donde cada reducer recibe todos los valores de una misma clave, en este
+ caso los días.
 \end_layout
 
 \begin_layout Standard
@@ -214,8 +220,7 @@ centering
 
 \begin_inset Graphics
 	filename MapReduce.png
-	width 80page%
-	height 70pheight%
+	scale 50
 	groupId common_image
 
 \end_inset
@@ -253,8 +258,8 @@ Conclusión
 \end_layout
 
 \begin_layout Standard
-Si bien el algoritmo MapReduce ya era conocido, la implementacion desde
- cero en C++ permitio que se incorporaran mejor los conocimientos de threading
+Si bien el algoritmo MapReduce ya era conocido, la implementación desde
+ cero en C++ permitió que se incorporaran mejor los conocimientos de threading
  que se empezaron a ver en el trabajo practico anterior.
 \end_layout
 
