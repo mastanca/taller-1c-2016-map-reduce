@@ -19,7 +19,7 @@ public:
 	// Default constrcutor, needed for pairs
 	Value() : temperature(-200), city("") {}
 	// Constructor
-	Value(float temperature, std::string city) :
+	Value(float temperature, std::string& city) :
 			temperature(temperature), city(city) {
 	}
 	// Destroyer
