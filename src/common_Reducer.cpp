@@ -48,14 +48,14 @@ std::pair<uint, std::string> Reducer::reduce(const uint& day,
 
 std::string Reducer::getSortedCitiesVector(
 		std::vector<std::string>* citiesVector) {
-	std::string stringToReturn;
+	std::stringstream stringToReturn;
 	std::sort(citiesVector->begin(), citiesVector->end());
 	for (std::vector<std::string>::iterator it = citiesVector->begin();
 			it != citiesVector->end(); ++it) {
-		stringToReturn.append(*it);
+		stringToReturn << *it;
 		if (it != citiesVector->end() - 1) {
-			stringToReturn.append(CITIES_SEPARATOR);
+			stringToReturn << CITIES_SEPARATOR;
 		}
 	}
-	return stringToReturn;
+	return stringToReturn.str();
 }
