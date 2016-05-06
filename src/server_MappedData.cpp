@@ -12,7 +12,8 @@
 #include <vector>
 
 MappedData::~MappedData() {
-	delete self;
+	if (self != NULL)
+		delete self;
 }
 
 std::vector<std::string>* MappedData::getData() {
