@@ -15,7 +15,6 @@
 #include <string>
 #include <vector>
 
-
 #include "common_InputParser.h"
 #include "server_AcceptorWorker.h"
 #include "server_ReducerWorker.h"
@@ -40,17 +39,6 @@ Server::Server(const std::string& port) {
 void Server::run() {
 	// Threading area 1
 	callAcceptorWorker();
-
-//	/////////////////////////////////////////////////////////////////////////
-//	// We will receive all the data in inputline and then parse it all
-//	InputParser parser;
-//	// Big structure here, we need a vector to hold the vectors of tuples
-//	std::vector<std::vector<std::pair<uint, Value> > > vectorOfTuplesVectors;
-//	for (std::vector<std::string>::iterator it = mappedData.getData()->begin();
-//			it != mappedData.getData()->end(); ++it) {
-//		std::vector<std::pair<uint, Value> > tuplesVector = parser.parse(*it);
-//		vectorOfTuplesVectors.push_back(tuplesVector);
-//	}
 
 	// We need to create a map of (day, [Values])
 	std::map<uint, std::vector<Value> > map;
@@ -114,7 +102,7 @@ void Server::callAcceptorWorker() {
 
 	// Initiate AcceptorWorker and get him to work
 	AcceptorWorker acceptorWorker(&dispatcherSocket, &keepOnListening,
-			&mappedData, &parsedData);
+			&parsedData);
 	acceptorWorker.start();
 
 	while (keepOnListening && std::getline(std::cin, userInput)) {

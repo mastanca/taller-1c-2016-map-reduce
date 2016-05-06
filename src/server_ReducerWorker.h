@@ -16,7 +16,6 @@
 
 #include "common_Value.h"
 #include "common_Thread.h"
-#include "common_Mutex.h"
 #include "server_Reducer.h"
 
 class ReducerWorker: public Thread {
@@ -42,8 +41,6 @@ public:
 	void run();
 
 private:
-	// Mutex for threading
-	Mutex mutex;
 	// Reduced data structure accessor wrapper
 	void storeReducedData(std::pair<uint, std::string> data);
 };

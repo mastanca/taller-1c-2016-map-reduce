@@ -21,13 +21,13 @@ void ReceiverWorker::run() {
 }
 
 void ReceiverWorker::storeMappedData(const std::string& data) {
-	mappedData->saveData(data);
+	mappedData.saveData(data);
 }
 
 void ReceiverWorker::parseMappedData() {
 	InputParser parser;
-	for (std::vector<std::string>::iterator it = mappedData->getData()->begin();
-			it != mappedData->getData()->end(); ++it) {
+	for (std::vector<std::string>::iterator it = mappedData.getData()->begin();
+			it != mappedData.getData()->end(); ++it) {
 		std::vector<std::pair<uint, Value> > tuplesVector = parser.parse(*it);
 		parsedData->saveData(tuplesVector);
 	}

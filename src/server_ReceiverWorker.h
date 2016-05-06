@@ -21,14 +21,13 @@ private:
 	// The client that will receive data (has the socket inside)
 	ClientProxy* client;
 	// The mappeddata to be received
-	MappedData* mappedData;
+	MappedData mappedData;
 	// The received data, now parsed
 	ParsedData* parsedData;
 public:
 	// Constructor
-	ReceiverWorker(ClientProxy* client, MappedData* mappedData,
-			ParsedData* parsedData) :
-			client(client), mappedData(mappedData), parsedData(parsedData) {
+	ReceiverWorker(ClientProxy* client, ParsedData* parsedData) :
+			client(client), parsedData(parsedData) {
 	}
 	// Destroyer
 	virtual ~ReceiverWorker();
