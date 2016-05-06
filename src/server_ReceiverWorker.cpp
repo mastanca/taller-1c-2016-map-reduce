@@ -9,6 +9,8 @@
 
 #include "common_InputParser.h"
 #include <string>
+#include <utility>
+#include <vector>
 
 ReceiverWorker::~ReceiverWorker() {
 }

@@ -8,6 +8,8 @@
 #include "server_DayValuesMap.h"
 
 #include "common_Lock.h"
+#include <map>
+#include <vector>
 
 DayValuesMap::~DayValuesMap() {
 }

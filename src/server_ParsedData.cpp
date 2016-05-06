@@ -6,6 +6,8 @@
  */
 
 #include "server_ParsedData.h"
+#include <utility>
+#include <vector>
 
 ParsedData::~ParsedData() {
 }

@@ -41,7 +41,8 @@ void Server::run() {
 
 	uint spawnedThreadsCount = 1; // We at least spawn 1
 	// Now that we have our map we iterate over it and reduce each key
-	for (std::map<uint, std::vector<Value> >::iterator it = dayValuesMap.getMap()->begin();
+	for (std::map<uint, std::vector<Value> >::iterator it =
+			dayValuesMap.getMap()->begin();
 			it != dayValuesMap.getMap()->end(); ++it) {
 		// Each worker accesses only his vector, should be no race condition
 		ReducerWorker* reducerWorker = new ReducerWorker((*it).first,

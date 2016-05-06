@@ -27,6 +27,7 @@ private:
 	ParsedData parsedData;
 	// The mapped received data
 	DayValuesMap* dayValuesMap;
+
 public:
 	// Constructor
 	ReceiverWorker(ClientProxy* client, DayValuesMap* dayValuesMap) :
@@ -36,6 +37,7 @@ public:
 	virtual ~ReceiverWorker();
 	// Run the worker
 	void run();
+
 private:
 	// Wrapper for mapped data structure accessing
 	void storeMappedData(const std::string& data);

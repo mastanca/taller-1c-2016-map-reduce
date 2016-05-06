@@ -20,7 +20,6 @@ std::vector<std::string>* MappedData::getData() {
 }
 
 void MappedData::saveData(const std::string& string) {
-
 	self->push_back(string);
 }
 
