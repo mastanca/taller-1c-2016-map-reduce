@@ -1,11 +1,9 @@
 /*
- * common_Reducer.cpp
+ * server_Reducer.cpp
  *
  *  Created on: Apr 23, 2016
  *      Author: mastanca
  */
-
-#include "common_Reducer.h"
 
 #include <sys/types.h>
 #include <iostream>
@@ -15,6 +13,7 @@
 #include <string>
 #include <vector>
 #include <algorithm>
+#include "server_Reducer.h"
 
 #define ABSOLUTE_ZERO -273.15
 #define CITIES_SEPARATOR "/"

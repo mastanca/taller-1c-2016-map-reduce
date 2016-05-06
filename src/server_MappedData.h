@@ -20,6 +20,8 @@ private:
 	// The actual data
 	std::vector<std::string>* self;
 public:
+	// Constructor
+	MappedData();
 	// Destroyer
 	virtual ~MappedData();
 	// Store data in structure

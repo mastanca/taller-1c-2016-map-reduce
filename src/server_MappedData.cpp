@@ -12,6 +12,7 @@
 #include <vector>
 
 MappedData::~MappedData() {
+	delete self;
 }
 
 std::vector<std::string>* MappedData::getData() {
@@ -21,5 +22,9 @@ std::vector<std::string>* MappedData::getData() {
 void MappedData::saveData(const std::string& string) {
 	// Shared resource, needs locking
 	Lock lock(mutex);
-	self->push_back(&string);
+	self->push_back(string);
+}
+
+MappedData::MappedData() {
+	self = new std::vector<std::string>;
 }

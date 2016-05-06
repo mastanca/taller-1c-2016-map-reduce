@@ -1,5 +1,5 @@
 /*
- * common_Reducer.h
+ * server_Reducer.h
  *
  *  Created on: Apr 23, 2016
  *      Author: mastanca

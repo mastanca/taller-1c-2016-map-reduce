@@ -14,10 +14,10 @@
 #include <string>
 
 
-#include "common_Reducer.h"
 #include "common_Value.h"
 #include "common_Thread.h"
 #include "common_Mutex.h"
+#include "server_Reducer.h"
 
 class ReducerWorker: public Thread {
 private:
