@@ -15,6 +15,7 @@
 #include "server_ClientProxy.h"
 #include "server_MappedData.h"
 #include "server_ParsedData.h"
+#include "server_DayValuesMap.h"
 
 class ReceiverWorker: public Thread {
 private:
@@ -23,11 +24,13 @@ private:
 	// The mappeddata to be received
 	MappedData mappedData;
 	// The received data, now parsed
-	ParsedData* parsedData;
+	ParsedData parsedData;
+	// The mapped received data
+	DayValuesMap* dayValuesMap;
 public:
 	// Constructor
-	ReceiverWorker(ClientProxy* client, ParsedData* parsedData) :
-			client(client), parsedData(parsedData) {
+	ReceiverWorker(ClientProxy* client, DayValuesMap* dayValuesMap) :
+			client(client), dayValuesMap(dayValuesMap) {
 	}
 	// Destroyer
 	virtual ~ReceiverWorker();
@@ -38,6 +41,8 @@ private:
 	void storeMappedData(const std::string& data);
 	// Parses the received data
 	void parseMappedData();
+	// Distributes the corresponding values to their keys
+	void distributeParsedData();
 };
 
 #endif /* SRC_SERVER_SERVER_RECEIVERWORKER_H_ */

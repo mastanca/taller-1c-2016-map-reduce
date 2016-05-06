@@ -7,7 +7,6 @@
 
 #include "server_MappedData.h"
 
-#include "common_Lock.h"
 #include <string>
 #include <vector>
 
@@ -21,8 +20,7 @@ std::vector<std::string>* MappedData::getData() {
 }
 
 void MappedData::saveData(const std::string& string) {
-	// Shared resource, needs locking
-	Lock lock(mutex);
+
 	self->push_back(string);
 }
 

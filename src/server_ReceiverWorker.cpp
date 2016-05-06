@@ -18,6 +18,7 @@ void ReceiverWorker::run() {
 	client->receive(inboundData);
 	storeMappedData(inboundData);
 	parseMappedData();
+	distributeParsedData();
 }
 
 void ReceiverWorker::storeMappedData(const std::string& data) {
@@ -29,6 +30,19 @@ void ReceiverWorker::parseMappedData() {
 	for (std::vector<std::string>::iterator it = mappedData.getData()->begin();
 			it != mappedData.getData()->end(); ++it) {
 		std::vector<std::pair<uint, Value> > tuplesVector = parser.parse(*it);
-		parsedData->saveData(tuplesVector);
+		parsedData.saveData(tuplesVector);
+	}
+}
+
+void ReceiverWorker::distributeParsedData() {
+	for (std::vector<std::vector<std::pair<uint, Value> > >::iterator bigIt =
+			parsedData.getData()->begin(); bigIt != parsedData.getData()->end();
+			++bigIt) {
+		for (std::vector<std::pair<uint, Value> >::iterator it =
+				(*bigIt).begin(); it != (*bigIt).end(); ++it) {
+			Value value = (*it).second;
+			uint day = (*it).first;
+			dayValuesMap->storeData(day, value);
+		}
 	}
 }

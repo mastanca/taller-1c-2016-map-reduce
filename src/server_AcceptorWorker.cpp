@@ -14,6 +14,7 @@
 #include "common_Socket.h"
 #include "common_Lock.h"
 #include "server_ReceiverWorker.h"
+#include "server_DayValuesMap.h"
 
 #define MAX_QUEUE_SIZE 128
 
@@ -46,7 +47,7 @@ void AcceptorWorker::run() {
 					// Spawn a receiver worker
 					// It will call our client proxy's receive method
 					ReceiverWorker* receiverWorker = new ReceiverWorker(client,
-							parsedData);
+							dayValuesMap);
 					launchedThreads.push_back(receiverWorker);
 					receiverWorker->start();
 				}
@@ -62,8 +63,8 @@ void AcceptorWorker::run() {
 }
 
 AcceptorWorker::AcceptorWorker(Socket* dispatcherSocket, bool* keepOnListening,
-		ParsedData* parsedData) :
+		DayValuesMap* dayValuesMap) :
 		dispatcherSocket(dispatcherSocket), keepOnListening(keepOnListening),
-		parsedData(parsedData) {
+		dayValuesMap(dayValuesMap) {
 	dispatcherSocket->listen(MAX_QUEUE_SIZE);
 }

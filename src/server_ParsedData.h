@@ -12,13 +12,10 @@
 #include <utility>
 #include <vector>
 
-#include "common_Mutex.h"
 #include "common_Value.h"
 
 class ParsedData {
 private:
-	// Mutex for locking shared resource
-	Mutex mutex;
 	// The actual data
 	std::vector<std::vector<std::pair<uint, Value> > > vectorOfTuplesVectors;
 public:

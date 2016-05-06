@@ -8,12 +8,13 @@
 #ifndef SRC_SERVER_SERVER_ACCEPTORWORKER_H_
 #define SRC_SERVER_SERVER_ACCEPTORWORKER_H_
 
-#include <string>
 #include <vector>
 
 #include "common_Thread.h"
 #include "server_ClientProxy.h"
-#include "server_ParsedData.h"
+#include "server_DayValuesMap.h"
+
+class DayValuesMap;
 
 class Socket;
 
@@ -28,11 +29,11 @@ private:
 	// Flag to continue listening
 	bool* keepOnListening;
 	// The data received and parsed
-	ParsedData* parsedData;
+	DayValuesMap* dayValuesMap;
 public:
 	// Constructor
 	AcceptorWorker(Socket* dispatcherSocket, bool* keepOnListening,
-			ParsedData* parsedData);
+			DayValuesMap* dayValuesMap);
 	// Destroyer
 	virtual ~AcceptorWorker();
 	// Run the worker

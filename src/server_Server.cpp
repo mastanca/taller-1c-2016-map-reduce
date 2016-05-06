@@ -37,28 +37,12 @@ Server::Server(const std::string& port) {
 }
 
 void Server::run() {
-	// Threading area 1
 	callAcceptorWorker();
 
-	// We need to create a map of (day, [Values])
-	std::map<uint, std::vector<Value> > map;
-	for (std::vector<std::vector<std::pair<uint, Value> > >::iterator bigIt =
-			parsedData.getData()->begin(); bigIt != parsedData.getData()->end();
-			++bigIt) {
-		for (std::vector<std::pair<uint, Value> >::iterator it =
-				(*bigIt).begin(); it != (*bigIt).end(); ++it) {
-			Value value = (*it).second;
-			uint day = (*it).first;
-			map[day].push_back(value);
-		}
-	}
-	//////////////////////////////////////////////////////////////////////////
-
-	// Threading area 2
 	uint spawnedThreadsCount = 1; // We at least spawn 1
 	// Now that we have our map we iterate over it and reduce each key
-	for (std::map<uint, std::vector<Value> >::iterator it = map.begin();
-			it != map.end(); ++it) {
+	for (std::map<uint, std::vector<Value> >::iterator it = dayValuesMap.getMap()->begin();
+			it != dayValuesMap.getMap()->end(); ++it) {
 		// Each worker accesses only his vector, should be no race condition
 		ReducerWorker* reducerWorker = new ReducerWorker((*it).first,
 				&(*it).second, &reducedData);
@@ -102,7 +86,7 @@ void Server::callAcceptorWorker() {
 
 	// Initiate AcceptorWorker and get him to work
 	AcceptorWorker acceptorWorker(&dispatcherSocket, &keepOnListening,
-			&parsedData);
+			&dayValuesMap);
 	acceptorWorker.start();
 
 	while (keepOnListening && std::getline(std::cin, userInput)) {

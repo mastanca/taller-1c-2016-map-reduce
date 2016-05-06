@@ -7,15 +7,11 @@
 
 #include "server_ParsedData.h"
 
-#include "common_Lock.h"
-
 ParsedData::~ParsedData() {
 }
 
 void ParsedData::saveData(
 		const std::vector<std::pair<uint, Value> >& tuplesVector) {
-	// Shared resource, needs locking
-	Lock lock(mutex);
 	vectorOfTuplesVectors.push_back(tuplesVector);
 }
 
