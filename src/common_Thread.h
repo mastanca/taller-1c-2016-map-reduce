@@ -26,6 +26,11 @@ public:
 	void start();
 	// Join the thread to the main one (or another one but thats ugly)
 	void join();
+private:
+	// Copy constructor
+	Thread(const Thread&);
+	// Assignment operator
+	Thread& operator=(const Thread&);
 };
 
 #endif /* SRC_THREAD_H_ */

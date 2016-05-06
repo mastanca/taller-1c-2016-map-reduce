@@ -23,6 +23,11 @@ public:
 	void enableLock();
 	// Disbale the lock on sensitive resources
 	void disableLock();
+private:
+	// Copy constructor
+	Mutex(const Mutex&);
+	// Assignment operator
+	Mutex& operator=(const Mutex&);
 };
 
 #endif /* SRC_MUTEX_H_ */
