@@ -14,6 +14,7 @@
 #include "common_Thread.h"
 #include "server_ClientProxy.h"
 #include "server_MappedData.h"
+#include "server_ParsedData.h"
 
 class Socket;
 
@@ -29,10 +30,12 @@ private:
 	bool* keepOnListening;
 	// The mapped data gathered by my clients
 	MappedData* mappedData;
+	// The data received and parsed
+	ParsedData* parsedData;
 public:
 	// Constructor
 	AcceptorWorker(Socket* dispatcherSocket, bool* keepOnListening,
-			MappedData* mappedData);
+			MappedData* mappedData, ParsedData* parsedData);
 	// Destroyer
 	virtual ~AcceptorWorker();
 	// Run the worker

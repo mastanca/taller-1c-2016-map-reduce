@@ -14,6 +14,7 @@
 #include "common_Thread.h"
 #include "server_ClientProxy.h"
 #include "server_MappedData.h"
+#include "server_ParsedData.h"
 
 class ReceiverWorker: public Thread {
 private:
@@ -21,10 +22,13 @@ private:
 	ClientProxy* client;
 	// The mappeddata to be received
 	MappedData* mappedData;
+	// The received data, now parsed
+	ParsedData* parsedData;
 public:
 	// Constructor
-	ReceiverWorker(ClientProxy* client, MappedData* mappedData) :
-			client(client), mappedData(mappedData) {
+	ReceiverWorker(ClientProxy* client, MappedData* mappedData,
+			ParsedData* parsedData) :
+			client(client), mappedData(mappedData), parsedData(parsedData) {
 	}
 	// Destroyer
 	virtual ~ReceiverWorker();
@@ -33,6 +37,8 @@ public:
 private:
 	// Wrapper for mapped data structure accessing
 	void storeMappedData(const std::string& data);
+	// Parses the received data
+	void parseMappedData();
 };
 
 #endif /* SRC_SERVER_SERVER_RECEIVERWORKER_H_ */

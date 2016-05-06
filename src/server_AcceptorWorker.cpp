@@ -46,7 +46,7 @@ void AcceptorWorker::run() {
 					// Spawn a receiver worker
 					// It will call our client proxy's receive method
 					ReceiverWorker* receiverWorker = new ReceiverWorker(client,
-							mappedData);
+							mappedData, parsedData);
 					launchedThreads.push_back(receiverWorker);
 					receiverWorker->start();
 				}
@@ -62,8 +62,8 @@ void AcceptorWorker::run() {
 }
 
 AcceptorWorker::AcceptorWorker(Socket* dispatcherSocket, bool* keepOnListening,
-		MappedData* mappedData) :
+		MappedData* mappedData, ParsedData* parsedData) :
 		dispatcherSocket(dispatcherSocket), keepOnListening(keepOnListening),
-		mappedData(mappedData) {
+		mappedData(mappedData), parsedData(parsedData) {
 	dispatcherSocket->listen(MAX_QUEUE_SIZE);
 }
