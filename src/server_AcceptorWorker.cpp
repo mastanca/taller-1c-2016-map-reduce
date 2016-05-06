@@ -62,7 +62,7 @@ void AcceptorWorker::run() {
 }
 
 AcceptorWorker::AcceptorWorker(Socket* dispatcherSocket, bool* keepOnListening,
-		std::vector<std::string>* mappedData) :
+		MappedData* mappedData) :
 		dispatcherSocket(dispatcherSocket), keepOnListening(keepOnListening),
 		mappedData(mappedData) {
 	dispatcherSocket->listen(MAX_QUEUE_SIZE);

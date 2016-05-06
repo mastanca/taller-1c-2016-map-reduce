@@ -13,6 +13,7 @@
 
 #include "common_Thread.h"
 #include "server_ClientProxy.h"
+#include "server_MappedData.h"
 
 class Socket;
 
@@ -27,11 +28,11 @@ private:
 	// Flag to continue listening
 	bool* keepOnListening;
 	// The mapped data gathered by my clients
-	std::vector<std::string>* mappedData;
+	MappedData* mappedData;
 public:
 	// Constructor
 	AcceptorWorker(Socket* dispatcherSocket, bool* keepOnListening,
-			std::vector<std::string>* mappedData);
+			MappedData* mappedData);
 	// Destroyer
 	virtual ~AcceptorWorker();
 	// Run the worker

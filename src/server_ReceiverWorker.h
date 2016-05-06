@@ -11,19 +11,19 @@
 #include <string>
 #include <vector>
 
-#include "common_Mutex.h"
 #include "common_Thread.h"
 #include "server_ClientProxy.h"
+#include "server_MappedData.h"
 
 class ReceiverWorker: public Thread {
 private:
 	// The client that will receive data (has the socket inside)
 	ClientProxy* client;
 	// The mappeddata to be received
-	std::vector<std::string>* mappedData;
+	MappedData* mappedData;
 public:
 	// Constructor
-	ReceiverWorker(ClientProxy* client, std::vector<std::string>* mappedData) :
+	ReceiverWorker(ClientProxy* client, MappedData* mappedData) :
 			client(client), mappedData(mappedData) {
 	}
 	// Destroyer
@@ -31,8 +31,6 @@ public:
 	// Run the worker
 	void run();
 private:
-	// Mutex for threading
-	Mutex mutex;
 	// Wrapper for mapped data structure accessing
 	void storeMappedData(const std::string& data);
 };

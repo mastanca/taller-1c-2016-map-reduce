@@ -23,9 +23,11 @@ public:
 	void enableLock();
 	// Disbale the lock on sensitive resources
 	void disableLock();
-private:
+public:
 	// Copy constructor
+	// public visibility for use in mapped data
 	Mutex(const Mutex&);
+private:
 	// Assignment operator
 	Mutex& operator=(const Mutex&);
 };

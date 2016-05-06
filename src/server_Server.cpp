@@ -46,8 +46,8 @@ void Server::run() {
 	InputParser parser;
 	// Big structure here, we need a vector to hold the vectors of tuples
 	std::vector<std::vector<std::pair<uint, Value> > > vectorOfTuplesVectors;
-	for (std::vector<std::string>::iterator it = mappedData.begin();
-			it != mappedData.end(); ++it) {
+	for (std::vector<std::string>::iterator it = mappedData.getData()->begin();
+			it != mappedData.getData()->end(); ++it) {
 		std::vector<std::pair<uint, Value> > tuplesVector = parser.parse(*it);
 		vectorOfTuplesVectors.push_back(tuplesVector);
 	}
