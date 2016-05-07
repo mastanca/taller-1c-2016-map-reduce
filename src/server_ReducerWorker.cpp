@@ -21,7 +21,5 @@ void ReducerWorker::run() {
 }
 
 void ReducerWorker::storeReducedData(std::pair<uint, std::string> data) {
-	// Secure access to shared resource
-	Lock lock(mutex);
 	reducedData->push_back(data);
 }

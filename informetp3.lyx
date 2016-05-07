@@ -253,6 +253,141 @@ name "fig:Diagrama-de-estados"
 
 \end_layout
 
+\begin_layout Subsubsection*
+Clases utilizadas
+\end_layout
+
+\begin_layout Standard
+A continuación se incluye una breve descripción de las clases que modelan
+ el dominio del problema
+\end_layout
+
+\begin_layout Itemize
+
+\emph on
+Client
+\emph default
+: Procesamiento de los datos de entrada, preparación de los mismos para
+ envío al 
+\emph on
+Mapper
+\emph default
+.
+\end_layout
+
+\begin_layout Itemize
+
+\emph on
+Mapper
+\emph default
+: Mapeo de los datos de entrada al formato esperado de salida, en este caso
+ recibe (ciudad, temperatura, día) y devuelve (día, temperatura, ciudad).
+\end_layout
+
+\begin_layout Itemize
+
+\emph on
+ServerProxy
+\emph default
+: Encapsulamiento del envío de datos por parte del cliente al servidor.
+\end_layout
+
+\begin_layout Itemize
+
+\emph on
+InputParser
+\emph default
+: Parseo de los datos de entrada recibidos, generando pares día, value.
+\end_layout
+
+\begin_layout Itemize
+
+\emph on
+Value
+\emph default
+: Estructura de datos que almacena el valor compuesto necesario para nuestro
+ problema (temperatura, ciudad).
+\end_layout
+
+\begin_layout Itemize
+
+\emph on
+AceptorWorker
+\emph default
+: Hilo aceptador de nuevas conexiones, llama a los hilos que reciben.
+\end_layout
+
+\begin_layout Itemize
+
+\emph on
+ClientProxy
+\emph default
+: Encapsulamiento de la recepción de datos del cliente.
+\end_layout
+
+\begin_layout Itemize
+
+\emph on
+MappedData
+\emph default
+: Estructura de datos que almacena los datos recibidos desde el cliente.
+\end_layout
+
+\begin_layout Itemize
+
+\emph on
+ParsedData
+\emph default
+: Almacena los datos parseados provenientes de 
+\emph on
+MappedData
+\emph default
+.
+\end_layout
+
+\begin_layout Itemize
+
+\emph on
+DayValuesMap
+\emph default
+: Hashmap que almacena por cada día (clave), una lista de valores.
+ Es una estructura compartida.
+\end_layout
+
+\begin_layout Itemize
+
+\emph on
+ReceiverWorker
+\emph default
+: Hilo que recibe los datos, del cliente, parsea y almacena en 
+\emph on
+DayValuesMap
+\emph default
+.
+\end_layout
+
+\begin_layout Itemize
+
+\emph on
+Reducer
+\emph default
+: Recibe todos los valores para un determinado día y los reduce a la ciudad
+ con mayor temperatura.
+\end_layout
+
+\begin_layout Itemize
+
+\emph on
+ReducerWoker
+\emph default
+: Hilo que reduce los datos de entrada, llamando a un 
+\emph on
+Reducer
+\emph default
+.
+ Se lanzan hasta 4 simultáneamente.
+\end_layout
+
 \begin_layout Section*
 Conclusión
 \end_layout
@@ -268,6 +403,20 @@ El tratar de resolver los conflictos que se presentan por culpa de la concurrenc
 ia, por ejemplo las race conditions, obliga a que se entiendan mejor los
  conceptos y se aprovechen mucho mas.
  
+\end_layout
+
+\begin_layout Standard
+Respecto a las correcciones marcadas en la entrega anterior, se tomaron
+ en cuenta todas y cada una para la presente versión.
+ Sin embargo, el uso de select en el socket no puedo ser evitado, ya que
+ el 
+\emph on
+SERCOM
+\emph default
+ mataba al proceso del servidor si no se incluía esta función en el socket.
+ Aguardamos comentarios sobre posibles variantes o soluciones a al uso de
+ select en el socket, para poder así aprender sobre el uso o no de este
+ método.
 \end_layout
 
 \end_body

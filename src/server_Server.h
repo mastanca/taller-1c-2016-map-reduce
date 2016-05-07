@@ -9,14 +9,16 @@
 #define SRC_SERVER_SERVER_SERVER_H_
 
 #include <sys/types.h>
+#include <map>
 #include <string>
 #include <utility>
 #include <vector>
 
 #include "common_Socket.h"
 #include "common_Thread.h"
+#include "common_Value.h"
 #include "server_ClientProxy.h"
-#include "server_MappedData.h"
+#include "server_DayValuesMap.h"
 
 #define MAX_QUEUE_SIZE 128
 
@@ -28,10 +30,10 @@ private:
 	std::vector<Thread*> reducers;
 	// Clients vector
 	std::vector<ClientProxy*> clients;
-	// Mapped data received
-	MappedData mappedData;
 	// Reduced data worked by the reducers
 	std::vector<std::pair<uint, std::string> > reducedData;
+	// The structure containing the distributed received data, sorted by date
+	DayValuesMap dayValuesMap;
 	// Calls acceptor worker to receive data
 	void callAcceptorWorker();
 	// Prints results

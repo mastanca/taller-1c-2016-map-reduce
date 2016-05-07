@@ -11,12 +11,9 @@
 #include <string>
 #include <vector>
 
-#include "common_Mutex.h"
 
 class MappedData {
 private:
-	// Mutex for locking shared resource
-	Mutex mutex;
 	// The actual data
 	std::vector<std::string>* self;
 public:
@@ -26,6 +23,7 @@ public:
 	virtual ~MappedData();
 	// Store data in structure
 	void saveData(const std::string& string);
+	// Returns the actual data
 	std::vector<std::string>* getData();
 };
 
