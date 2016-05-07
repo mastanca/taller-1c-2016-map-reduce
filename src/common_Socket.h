@@ -31,7 +31,7 @@ public:
 	int bind();
 	// Listens for new connections, up to max queue size (blocker)
 	int listen(int maxQueueSize);
-	// Accepts new connection, returns connection fd in Client's fd
+	// Accepts new connection
 	int accept(Socket* client) const;
 	// Connects to server (blocker)
 	int connect();

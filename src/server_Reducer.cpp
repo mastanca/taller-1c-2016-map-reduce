@@ -1,11 +1,9 @@
 /*
- * common_Reducer.cpp
+ * server_Reducer.cpp
  *
  *  Created on: Apr 23, 2016
  *      Author: mastanca
  */
-
-#include "common_Reducer.h"
 
 #include <sys/types.h>
 #include <iostream>
@@ -15,6 +13,7 @@
 #include <string>
 #include <vector>
 #include <algorithm>
+#include "server_Reducer.h"
 
 #define ABSOLUTE_ZERO -273.15
 #define CITIES_SEPARATOR "/"
@@ -48,14 +47,14 @@ std::pair<uint, std::string> Reducer::reduce(const uint& day,
 
 std::string Reducer::getSortedCitiesVector(
 		std::vector<std::string>* citiesVector) {
-	std::string stringToReturn;
+	std::stringstream stringToReturn;
 	std::sort(citiesVector->begin(), citiesVector->end());
 	for (std::vector<std::string>::iterator it = citiesVector->begin();
 			it != citiesVector->end(); ++it) {
-		stringToReturn.append(*it);
+		stringToReturn << *it;
 		if (it != citiesVector->end() - 1) {
-			stringToReturn.append(CITIES_SEPARATOR);
+			stringToReturn << CITIES_SEPARATOR;
 		}
 	}
-	return stringToReturn;
+	return stringToReturn.str();
 }

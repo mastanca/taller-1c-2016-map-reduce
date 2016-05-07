@@ -9,7 +9,7 @@
 #include <syslog.h>
 #include <string>
 
-#include "Client/client_Client.h"
+#include "client_Client.h"
 
 
 //int main(int argc, char *argv[]){

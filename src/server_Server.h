@@ -13,9 +13,10 @@
 #include <utility>
 #include <vector>
 
-#include "../Sockets/common_Socket.h"
-#include "../Threading/common_Thread.h"
+#include "common_Socket.h"
+#include "common_Thread.h"
 #include "server_ClientProxy.h"
+#include "server_MappedData.h"
 
 #define MAX_QUEUE_SIZE 128
 
@@ -28,7 +29,7 @@ private:
 	// Clients vector
 	std::vector<ClientProxy*> clients;
 	// Mapped data received
-	std::vector<std::string> mappedData;
+	MappedData mappedData;
 	// Reduced data worked by the reducers
 	std::vector<std::pair<uint, std::string> > reducedData;
 	// Calls acceptor worker to receive data

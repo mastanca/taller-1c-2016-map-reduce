@@ -7,7 +7,6 @@
 
 #include "server_ReceiverWorker.h"
 
-#include "../Threading/common_Lock.h"
 #include <string>
 
 ReceiverWorker::~ReceiverWorker() {
@@ -20,7 +19,5 @@ void ReceiverWorker::run() {
 }
 
 void ReceiverWorker::storeMappedData(const std::string& data) {
-	// Warning: shared resource
-	Lock lock(mutex);
-	mappedData->push_back(data);
+	mappedData->saveData(data);
 }

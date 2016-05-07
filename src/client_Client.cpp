@@ -11,7 +11,7 @@
 #include <sstream>
 #include <string>
 
-#include "../MapReduce/common_Mapper.h"
+#include "client_Mapper.h"
 
 #define STOP_SENDING_SIGNAL "End\n"
 
@@ -43,7 +43,6 @@ void Client::run() {
 			mapper.map(city, temperature, day, mappedStream);
 
 			serverProxy.send(mappedStream.str() + "\n");
-			std::cout << "Sent " << mappedStream.str() << std::endl;
 		}
 	}
 	serverProxy.send(STOP_SENDING_SIGNAL);

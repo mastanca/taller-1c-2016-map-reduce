@@ -10,7 +10,7 @@
 #include <string>
 #include <utility>
 
-#include "../Threading/common_Lock.h"
+#include "common_Lock.h"
 
 ReducerWorker::~ReducerWorker() {
 }

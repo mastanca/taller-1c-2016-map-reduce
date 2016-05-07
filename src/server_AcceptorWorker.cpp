@@ -11,8 +11,8 @@
 #include <string>
 #include <vector>
 
-#include "../Sockets/common_Socket.h"
-#include "../Threading/common_Lock.h"
+#include "common_Socket.h"
+#include "common_Lock.h"
 #include "server_ReceiverWorker.h"
 
 #define MAX_QUEUE_SIZE 128
@@ -62,7 +62,7 @@ void AcceptorWorker::run() {
 }
 
 AcceptorWorker::AcceptorWorker(Socket* dispatcherSocket, bool* keepOnListening,
-		std::vector<std::string>* mappedData) :
+		MappedData* mappedData) :
 		dispatcherSocket(dispatcherSocket), keepOnListening(keepOnListening),
 		mappedData(mappedData) {
 	dispatcherSocket->listen(MAX_QUEUE_SIZE);

@@ -24,13 +24,12 @@ std::vector<std::pair<uint, Value> > InputParser::parse(
 	float temperature;
 	uint day;
 	while (!ss.eof()){
-		std::pair<uint, Value> aPair;
 		ss >> day;
 		ss >> temperature;
 		ss >> city;
 		Value value = Value(temperature, city);
 		// Create a pair with day as key, value as value
-		aPair = std::make_pair(day, value);
+		std::pair<uint, Value> aPair(day, value);
 		tuplesVector.push_back(aPair);
 	}
 	// Due to implementation the last pair is pushed twice,
