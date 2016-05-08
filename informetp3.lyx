@@ -408,12 +408,12 @@ ia, por ejemplo las race conditions, obliga a que se entiendan mejor los
 \begin_layout Standard
 Respecto a las correcciones marcadas en la entrega anterior, se tomaron
  en cuenta todas y cada una para la presente versión.
- Sin embargo, el uso de select en el socket no puedo ser evitado, ya que
- el 
-\emph on
-SERCOM
-\emph default
- mataba al proceso del servidor si no se incluía esta función en el socket.
+ Sin embargo, el uso de select en el socket fue evitado de una forma que
+ quizá no termine de ser la correcta.
+ Para ello se creo un método terminate en el hilo que acepta conexiones,
+ el cual es llamado por el server al recibir la letra q por stdin.
+ La función de terminate es hacer el shutdown y close sobre el socket aceptador,
+ evitando así que el accept quede bloqueando la ejecución del programa.
  Aguardamos comentarios sobre posibles variantes o soluciones a al uso de
  select en el socket, para poder así aprender sobre el uso o no de este
  método.
