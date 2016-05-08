@@ -38,6 +38,8 @@ public:
 	virtual ~AcceptorWorker();
 	// Run the worker
 	void run();
+	// Terminates worker, freeing resources
+	void terminate();
 };
 
 #endif /* SRC_SERVER_SERVER_ACCEPTORWORKER_H_ */

@@ -93,6 +93,7 @@ void Server::callAcceptorWorker() {
 	while (keepOnListening && std::getline(std::cin, userInput)) {
 		if (userInput == STOP_LISTENING) {
 			keepOnListening = false;
+			acceptorWorker.terminate();
 		}
 	}
 
